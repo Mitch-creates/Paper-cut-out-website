@@ -6,13 +6,9 @@ gsap.registerPlugin(ScrollTrigger);
 export function setupScrollAnimations(): void {
   // Get all the elements we need
   const scrollMouse = document.getElementById("scroll-mouse");
-  const scrollWheel = document.getElementById("scroll-wheel");
-  const scrollLine = document.getElementById("scroll-line");
-  const scrollText = document.querySelector("#scroll-mouse p");
-  const wheelDot = document.querySelector("#scroll-wheel div");
 
   // Early return if elements don't exist
-  if (!scrollMouse || !scrollWheel || !scrollLine || !wheelDot) {
+  if (!scrollMouse) {
     console.warn("Scroll animation elements not found");
     return;
   }
@@ -20,22 +16,8 @@ export function setupScrollAnimations(): void {
 
   // Get exact position measurements after DOM is fully loaded
   setTimeout(() => {
-    // Get positions for precise alignment
-    const wheelRect = scrollWheel.getBoundingClientRect();
-    const dotRect = wheelDot.getBoundingClientRect();
-
     // Initial setup
     gsap.set(scrollMouse, { opacity: 1 });
-    if (scrollText) gsap.set(scrollText, { opacity: 1 });
-
-    // Position the line to start exactly at the wheel dot
-    const dotOffset = dotRect.top - wheelRect.top + 5; // Add small adjustment to center on dot
-
-    gsap.set(scrollLine, {
-      top: `${dotOffset}px`,
-      height: 0,
-      opacity: 0,
-    });
 
     // Create the scroll-triggered animation
     ScrollTrigger.create({
@@ -59,34 +41,32 @@ export function setupScrollAnimations(): void {
         }
 
         // 1. Mouse border fades out
-        gsap.set(scrollWheel, {
-          borderColor: `rgba(43, 43, 43, ${(1 - progress * 10) * 0.3})`,
+        gsap.set(scrollMouse, {
           opacity: Math.max(0, 1 - progress * 10),
         });
+      },
+    });
 
-        // Text fades out
-        if (scrollText) {
-          gsap.set(scrollText, {
-            opacity: Math.max(0, 1 - progress * 10),
-          });
-        }
+    const maskPath = document.getElementById(
+      "maskPath"
+    ) as SVGPathElement | null;
+    if (!maskPath) return;
 
-        // 2. Mouse shifts up slightly
-        gsap.set(scrollMouse, {
-          y: progress * -20,
-        });
+    const total = maskPath.getTotalLength();
+    // Prepare mask to be hidden initially
+    maskPath.style.strokeDasharray = `${total}`;
+    maskPath.style.strokeDashoffset = `${total}`;
 
-        // 3. Wheel dot stays visible and becomes part of the line
-        gsap.set(wheelDot, {
-          backgroundColor: `rgba(43, 43, 43, ${0.5 + progress * 0.5})`,
-          scale: 1, // Keep the same size
-        });
-
-        // 4. Line grows downward
-        gsap.set(scrollLine, {
-          height: `${progress * 600}px`,
-          opacity: gsap.utils.clamp(0, 1, progress * 10), // Quick fade in
-        });
+    gsap.to(maskPath, {
+      strokeDashoffset: 0,
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".scrolly",
+        start: "top top",
+        end: "bottom bottom", // increase this section's height to make reveal longer
+        scrub: true,
+        // pin: true,          // optional: pin the section while revealing
+        // markers: true       // debug
       },
     });
 
