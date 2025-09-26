@@ -16,20 +16,6 @@ export function setupScrollAnimations(): void {
     console.warn("Scroll animation elements not found");
     return;
   }
-
-  // Create the path for the zigzag line
-  const createZigzagPath = () => {
-    // Create curved path points - adjust these to match your desired path
-    return [
-      { x: 0, y: 0 }, // Starting point (will be positioned at wheel dot)
-      { x: 0, y: 200 }, // Go straight down
-      { x: 100, y: 300 }, // Curve to right
-      { x: -150, y: 400 }, // Curve to left
-      { x: 200, y: 550 }, // Curve to right again
-      { x: 0, y: 650 }, // End at center
-    ];
-  };
-
   let bounceAnimation: gsap.core.Tween | null = null;
 
   // Get exact position measurements after DOM is fully loaded
