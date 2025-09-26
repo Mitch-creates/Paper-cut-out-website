@@ -1,28 +1,88 @@
 import "./style.css";
-import typescriptLogo from "./typescript.svg";
-import viteLogo from "/vite.svg";
-import { setupCounter } from "./counter.ts";
+import { getGroup1People } from "./data/people";
+import { PersonCard } from "./components/Person";
+import { setupScrollAnimations } from "./animations/scrollAnimations";
+import DonateButton from "./components/DonateButton";
 
-document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
-  <div class="min-h-screen bg-paper flex items-center justify-center">
-    <div class="text-center space-y-8 p-8 bg-white rounded-xl shadow-paper">
-      <div class="flex justify-center space-x-8">
-        <a href="https://vite.dev" target="_blank" class="transition-transform hover:scale-110">
-          <img src="${viteLogo}" class="h-24 w-24" alt="Vite logo" />
-        </a>
-        <a href="https://www.typescriptlang.org/" target="_blank" class="transition-transform hover:scale-110">
-          <img src="${typescriptLogo}" class="h-24 w-24" alt="TypeScript logo" />
-        </a>
+// Create the main page structure
+function createMainHTML(): string {
+  return `
+    <!-- Hero Section with Group Photo -->
+    <section class="hero-section min-h-scree relative overflow-hidden">
+      <div class="absolute inset-0"></div>
+      <div class="relative z-10 flex items-center justify-center min-h-screen">
+        <div class="text-center space-y-8 p-8">
+          <div class="group-photo-container mb-8">
+            <img 
+              src="/images/Dummy_Group_Picture.jpg" 
+              alt="Our Amazing Team" 
+              class="w-auto h-96 mx-auto rounded-2xl shadow-paper border-4 border-white"
+            />
+          </div>
+          
+          <!-- Hero Title -->
+          <h1 class="text-6xl font-bold text-ink mb-4">Team naam 1</h1>
+          <p class="text-2xl text-ink/70 max-w-2xl mx-auto leading-relaxed">
+            Ons motto tekstje?
+          </p>
+          
+          <!-- Scroll Indicator -->
+          <div class="mt-16 relative h-100% w-100%">
+            <div id="scroll-mouse" class="scroll-mouse mx-auto">
+              <div id="scroll-wheel" class="w-8 h-12 border-2 border-ink/30 rounded-full mx-auto relative">
+                <div class="w-1 h-3 bg-ink/50 rounded-full absolute left-1/2 top-2 transform -translate-x-1/2 "></div>
+              </div>
+              <p class="text-ink/50 mt-2">Scroll verder!</p>
+            </div>
+            <div id="scroll-line" class="scroll-line rounded-full top-2 absolute left-1/2 -translate-x-1/2 w-1 h-3 opacity-0 text-ink/50"></div>
+          </div>
+        </div>
       </div>
-      <h1 class="text-4xl font-bold text-ink">Vite + TypeScript</h1>
-      <div class="bg-blue-500 rounded-lg shadow-lg p-6 max-w-sm mx-auto border border-gray-200">
-        <button id="counter" type="button" class="bg-ink hover:bg-gray-700 text-paper font-semibold py-2 px-4 rounded-lg transition-colors"></button>
+    </section>
+
+    <!-- People Sections -->
+    <div class="people-sections">
+      ${getGroup1People()
+        .map((person, index) => PersonCard({ person, isLeft: index % 2 === 0 }))
+        .join("")}
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-ink text-paper pt-16 text-center">
+    <div class="container mx-auto px-4">
+    <div class="flex flex-col md:flex-row items-center">
+      <div class="md:w-1/4 flex justify-center md:justify-start mb-8 md:mb-0 md:pl-16">
+        <img 
+          src="images/logo Kom op tegen Kanker verticaal.jpg" 
+          alt="Logo" 
+          class="h-40 w-auto"
+        />
       </div>
-      <p class="text-ink/70 max-w-md mx-auto">
-        Click on the Vite and TypeScript logos to learn more
-      </p>
+      
+      <div class="md:w-2/4 text-center">
+        <h2 class="text-3xl font-bold mb-8">Klaar om <span class="text-ktk">Kom op tegen kanker</span> te steunen?</h2>
+        ${DonateButton({
+          text: "DOE EEN GIFT <i class='fa-regular fa-heart ml-2'></i>",
+          color: "inverted",
+          href: "https://google.com",
+        })}
+      </div>
+    
+      <div class="md:w-1/4"></div>
+    </div>
+
+    <div class="mt-12 text-center text-paper/70">
+      &copy; <a href="https://mitchcreates.info/"><span class="underline">MitchCreates</span> 2025</a>
     </div>
   </div>
-`;
+    </footer>
+  `;
+}
 
-setupCounter(document.querySelector<HTMLButtonElement>("#counter")!);
+// Initialize the app
+document.querySelector<HTMLDivElement>("#app")!.innerHTML = createMainHTML();
+
+// Setup animations after DOM is loaded
+setTimeout(() => {
+  setupScrollAnimations();
+}, 100);
