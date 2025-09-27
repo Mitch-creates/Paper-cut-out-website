@@ -8,14 +8,15 @@ import DonateButton from "./components/DonateButton";
 function createMainHTML(): string {
   return `
     <!-- Hero Section with Group Photo -->
-    <section class="hero-section min-h-scree relative overflow-hidden">
+    <section class="hero-section min-h-screen relative overflow-hidden">
       <div class="absolute inset-0"></div>
       <div class="relative z-10 flex items-center justify-center min-h-screen">
         <div class="text-center space-y-8 p-8">
-          <div class="group-photo-container mb-8">
+          <div id="group-photo-container" class="group-photo-container invisible mb-8">
             <img 
               src="/images/Dummy_Group_Picture.jpg" 
-              alt="Our Amazing Team" 
+              alt="Our Amazing Team"
+              id="hero-image"
               class="w-auto h-96 mx-auto rounded-2xl shadow-paper border-4 border-white"
             />
           </div>
@@ -50,7 +51,7 @@ function createMainHTML(): string {
   </div>
 </div>
 <div class="relative left-1/2 right-1/2 ml-[-50vw] mr-[-50vw] w-full overflow-hidden">
-    <section class="scrolly relative left-1/2 -translate-x-1/2" style="height:2400px;">
+    <section class="scrolly relative left-1/2 -translate-x-1/2 h-[2400px]">
   <svg
     id="guide"
     viewBox="0 0 1920 3000"
@@ -116,6 +117,19 @@ function createMainHTML(): string {
 
 // Initialize the app
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = createMainHTML();
+
+const heroImage = document.getElementById("hero-image") as HTMLImageElement;
+const groupPhotoContainer = document.getElementById(
+  "group-photo-container"
+) as HTMLElement;
+if (heroImage.complete) {
+  groupPhotoContainer.classList.remove("invisible");
+} else {
+  // Otherwise wait for load event
+  heroImage.onload = () => {
+    groupPhotoContainer.classList.remove("invisible");
+  };
+}
 
 // Setup animations after DOM is loaded
 setTimeout(() => {

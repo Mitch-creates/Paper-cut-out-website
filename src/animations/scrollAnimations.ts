@@ -21,7 +21,7 @@ export function setupScrollAnimations(): void {
   }
 
   // thresholds across the HERO section scroll
-  const T = { show: 0.11, readyEnd: 0.2, setEnd: 0.28, hide: 0.34 };
+  const T = { show: 0.11, readyEnd: 0.2, setEnd: 0.3, hide: 0.4 };
   const EPS = 0.003;
 
   let lastIdx: 0 | 1 | 2 = 0;
