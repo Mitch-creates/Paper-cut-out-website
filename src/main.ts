@@ -39,8 +39,8 @@ function createMainHTML(): string {
         </div>
       </div>
     </section>
-<div class="relative left-1/2 right-1/2 ml-[-50vw] mr-[-50vw] w-screen">
-    <section class="scrolly relative left-1/2 -translate-x-1/2 w-full" style="height:2600px;">
+<div class="relative left-1/2 right-1/2 ml-[-50vw] mr-[-50vw] w-full overflow-hidden">
+    <section class="scrolly relative left-1/2 -translate-x-1/2" style="height:2400px;">
   <svg
     id="guide"
     viewBox="0 0 1920 3000"
