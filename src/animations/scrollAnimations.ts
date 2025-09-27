@@ -117,19 +117,33 @@ export function setupScrollAnimations(): void {
     ) as SVGPathElement | null;
     if (!maskPath) return;
 
-    const total = maskPath.getTotalLength();
-    maskPath.style.strokeDasharray = `${total}`;
-    maskPath.style.strokeDashoffset = `${total}`;
+    function prepMask() {
+      if (!maskPath) return;
+      const total = maskPath.getTotalLength();
+      maskPath.style.strokeDasharray = `${total}`;
+      maskPath.style.strokeDashoffset = `${total}`;
+    }
+    prepMask();
+
+    const scrolly = document.querySelector(".scrolly") as HTMLElement | null;
+    if (!scrolly) return;
 
     gsap.to(maskPath, {
       strokeDashoffset: 0,
       ease: "none",
       scrollTrigger: {
-        trigger: ".scrolly",
+        trigger: scrolly,
         start: "top top",
-        end: "bottom bottom",
+        end: () => "+=" + (scrolly.scrollHeight - window.innerHeight),
         scrub: true,
+        invalidateOnRefresh: true,
+        onRefresh: prepMask,
       },
+    });
+
+    window.addEventListener("resize", () => {
+      prepMask();
+      ScrollTrigger.refresh();
     });
 
     // mouse bounce
