@@ -67,7 +67,7 @@ function createMainHTML(): string {
       </mask>
     </defs>
 
-    <g id="dashGroup" mask="url(#reveal)">
+    <g id="dashGroup" mask="url(#reveal)" class="opacity-0">
       <path id="dashPath"
         d="M807.5 0C813.681 361.005 765.145 543.719 476.674 451.256C188.204 358.794 -51.3278 489.447 49.1215 632.161C149.571 774.874 414.859 762.814 445.767 765.829C476.674 768.844 826.963 771.859 1146.34 774.874C1465.72 777.889 1960.23 906.533 1537.83 996.985C1115.43 1087.44 1615.1 1160.8 1465.71 1233.17C1316.33 1305.53 783.177 1335.68 659.546 1345.73C535.915 1355.78 -126.021 1303.52 56.8483 1507.54C239.718 1711.56 -133.748 1679.4 56.8483 1819.1C247.444 1958.79 512.735 1691.46 700.756 1805.03C888.777 1918.59 1285.42 1781.91 1473.44 1866.33C1661.46 1950.75 1857.21 2232.16 1427.08 2160.8C996.951 2089.45 803.782 2152.76 654.395 2283.42C505.008 2414.07 -38.4499 2269.35 54.2726 2414.07C146.995 2558.79 -107.992 2730.65 87.7556 2710.55C283.503 2690.45 561.671 2764.82 700.756 2813.07C839.841 2861.31 830 2997 830 2997"
         fill="none" stroke="#F5A500" stroke-width="8"
@@ -97,11 +97,13 @@ function createMainHTML(): string {
       
       <div class="md:w-2/4 text-center">
         <h2 class="text-3xl font-bold mb-8">Klaar om <span class="text-ktk">Kom op tegen kanker</span> te steunen?</h2>
+        <div id="donate-target">
         ${DonateButton({
           text: "DOE EEN GIFT <i class='fa-regular fa-heart ml-2'></i>",
           color: "inverted",
           href: "https://google.com",
         })}
+        </div>
       </div>
     
       <div class="md:w-1/4"></div>
