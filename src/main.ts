@@ -39,13 +39,23 @@ function createMainHTML(): string {
         </div>
       </div>
     </section>
+
+    <!-- READY, SET, GO! -->
+<div id="scroll-words"
+     class="fixed inset-0 z-[100] pointer-events-none flex items-center justify-center invisible">
+  <div id="scroll-words-text"
+       class="select-none font-extrabold tracking-tight
+              text-4xl md:text-6xl text-ink/90">
+    READY
+  </div>
+</div>
 <div class="relative left-1/2 right-1/2 ml-[-50vw] mr-[-50vw] w-full overflow-hidden">
     <section class="scrolly relative left-1/2 -translate-x-1/2" style="height:2400px;">
   <svg
     id="guide"
     viewBox="0 0 1920 3000"
     preserveAspectRatio="xMidYMid meet"
-    class="sticky top-0 block w-screen h-auto overflow-visible pointer-events-none"
+    class="sticky top-0 block w-screen h-auto pointer-events-none"
   >
 
     <defs>
