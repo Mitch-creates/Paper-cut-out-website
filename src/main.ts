@@ -50,7 +50,7 @@ function createMainHTML(): string {
     READY
   </div>
 </div>
-<div class="relative left-1/2 right-1/2 ml-[-50vw] mr-[-50vw] w-full overflow-hidden">
+<div class="relative w-full overflow-hidden">
     <section class="scrolly relative left-1/2 -translate-x-1/2 h-[2400px]">
   <svg
     id="guide"

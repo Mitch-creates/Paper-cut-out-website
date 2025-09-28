@@ -50,8 +50,3 @@ body {
 html {
   scroll-behavior: smooth;
 }
-
-/* Custom clip-path for paper cut effect */
-.paper-cut {
-  clip-path: polygon(0% 0%, 100% 0%, 95% 100%, 5% 100%);
-}
