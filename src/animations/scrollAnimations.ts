@@ -160,7 +160,7 @@ export function setupScrollAnimations(): void {
       const nx = vx / m,
         ny = vy / m;
 
-      const handle = 220; // adjust curvature if you like
+      const handle = 220;
       const c1x = p1.x + nx * handle,
         c1y = p1.y + ny * handle;
       const c2x = tx - nx * handle,
