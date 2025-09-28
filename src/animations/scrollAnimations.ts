@@ -112,18 +112,11 @@ export function setupScrollAnimations(): void {
     updateWords(heroST.progress);
 
     // SVG reveal
-    const svg = document.getElementById("guide") as SVGSVGElement | null;
-    const maskPath = document.getElementById(
-      "maskPath"
-    ) as SVGPathElement | null;
-    const dashPath = document.getElementById(
-      "dashPath"
-    ) as SVGPathElement | null;
-    const targetEl = document.getElementById(
-      "donate-target"
-    ) as HTMLElement | null;
+
     const scrolly = document.querySelector(".scrolly") as HTMLElement | null;
-    if (!svg || !maskPath || !dashPath || !targetEl || !scrolly) return;
+    if (!scrolly) return;
+
+    let { svg, maskPath, dashPath, dashGroup, mode } = getActiveSvgSet();
 
     function prepMask() {
       if (!maskPath) return;
@@ -132,7 +125,11 @@ export function setupScrollAnimations(): void {
       maskPath.style.strokeDashoffset = `${total}`;
     }
 
-    function appendTailToButton() {
+    function appendTailToButtonIfDesktop() {
+      const targetEl = document.getElementById(
+        "donate-target"
+      ) as HTMLElement | null;
+      if (mode !== "desktop") return;
       if (!maskPath || !dashPath || !targetEl || !svg) return;
       // cache original d once
       (dashPath as any)._origD ??= dashPath.getAttribute("d")!;
@@ -172,11 +169,7 @@ export function setupScrollAnimations(): void {
       maskPath.setAttribute("d", d1);
     }
 
-    const dashGroup = document.getElementById(
-      "dashGroup"
-    ) as SVGGElement | null;
-
-    appendTailToButton();
+    appendTailToButtonIfDesktop();
     prepMask();
     if (dashGroup) gsap.set(dashGroup, { opacity: 1 });
 
@@ -198,7 +191,7 @@ export function setupScrollAnimations(): void {
           scrub: true,
           invalidateOnRefresh: true,
           onRefresh: () => {
-            appendTailToButton();
+            appendTailToButtonIfDesktop();
             prepMask();
             if (dashGroup) gsap.set(dashGroup, { opacity: 1 });
           },
@@ -215,7 +208,7 @@ export function setupScrollAnimations(): void {
     );
 
     window.addEventListener("resize", () => {
-      appendTailToButton();
+      appendTailToButtonIfDesktop();
       prepMask();
       ScrollTrigger.refresh();
     });
@@ -229,4 +222,42 @@ export function setupScrollAnimations(): void {
       ease: "power10.inOut",
     });
   }, 100);
+}
+
+// utility to get the currently active set (mobile or desktop)
+function getActiveSvgSet() {
+  const mMask = document.getElementById(
+    "maskPathMobile"
+  ) as SVGPathElement | null;
+  const dMask = document.getElementById("maskPath") as SVGPathElement | null;
+  const mDash = document.getElementById(
+    "dashPathMobile"
+  ) as SVGPathElement | null;
+  const dDash = document.getElementById("dashPath") as SVGPathElement | null;
+  const mGroup = document.getElementById(
+    "dashGroupMobile"
+  ) as SVGGElement | null;
+  const dGroup = document.getElementById("dashGroup") as SVGGElement | null;
+  const mSvg = document.getElementById("guideMobile") as SVGSVGElement | null;
+  const dSvg = document.getElementById("guide") as SVGSVGElement | null;
+
+  const isVisible = (el: Element | null) =>
+    !!el && getComputedStyle(el).display !== "none";
+
+  if (isVisible(mSvg)) {
+    return {
+      svg: mSvg!,
+      maskPath: mMask!,
+      dashPath: mDash!,
+      dashGroup: mGroup!,
+      mode: "mobile" as const,
+    };
+  }
+  return {
+    svg: dSvg!,
+    maskPath: dMask!,
+    dashPath: dDash!,
+    dashGroup: dGroup!,
+    mode: "desktop" as const,
+  };
 }
