@@ -123,7 +123,7 @@ function createMainHTML(): string {
         <h2 class="text-2xl md:text-3xl font-bold mb-6 md:mb-8">Klaar om <span class="text-ktk">Kom op tegen kanker</span> te steunen?</h2>
         <div id="donate-target">
         ${DonateButton({
-          text: "DOE EEN GIFT <i class='fa-regular fa-heart ml-2'></i>",
+          text: "DOE EEN GIFT <i id='donate-icon' class='fa-solid animate-bounce fa-heart ml-2'></i>",
           color: "inverted",
           href: "https://google.com",
         })}
