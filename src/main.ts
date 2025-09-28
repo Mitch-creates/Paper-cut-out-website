@@ -11,29 +11,29 @@ function createMainHTML(): string {
     <section class="hero-section min-h-screen relative overflow-hidden">
       <div class="absolute inset-0"></div>
       <div class="relative z-10 flex items-center justify-center min-h-screen">
-        <div class="text-center space-y-8 p-8">
-          <div id="group-photo-container" class="group-photo-container invisible mb-8">
+        <div class="text-center space-y-6 md:space-y-8 p-4 md:p-8">
+          <div id="group-photo-container" class="group-photo-container invisible mb-6 md:mb-8">
             <img 
-              src="/images/Dummy_Group_Picture.jpg" 
+              src="/images/Groepsfoto.jpg" 
               alt="Our Amazing Team"
               id="hero-image"
-              class="w-auto h-96 mx-auto rounded-2xl shadow-paper border-4 border-white"
+              class="w-auto h-64 md:h-96 mx-auto rounded-xl md:rounded-2xl shadow-paper border-2 md:border-4 border-white"
             />
           </div>
           
           <!-- Hero Title -->
-          <h1 class="text-6xl font-bold text-ink mb-4">Team naam 1</h1>
-          <p class="text-2xl text-ink/70 max-w-2xl mx-auto leading-relaxed">
+          <h1 class="text-4xl md:text-6xl font-bold text-ink mb-3 md:mb-4">Team naam 1</h1>
+          <p class="text-xl md:text-2xl text-ink/70 max-w-2xl mx-auto leading-relaxed px-4">
             Ons motto tekstje?
           </p>
           
           <!-- Scroll Indicator -->
-          <div class="mt-16 relative h-100% w-100%">
+          <div class="mt-10 md:mt-16 relative h-100% w-100%">
             <div id="scroll-mouse" class="scroll-mouse mx-auto">
-              <div id="scroll-wheel" class="w-8 h-12 border-2 border-ink/30 rounded-full mx-auto relative">
-                <div class="w-1 h-3 bg-ink/50 rounded-full absolute left-1/2 top-2 transform -translate-x-1/2 "></div>
+              <div id="scroll-wheel" class="w-6 md:w-8 h-10 md:h-12 border-2 border-ink/30 rounded-full mx-auto relative">
+                <div class="w-1 h-2 md:h-3 bg-ink/50 rounded-full absolute left-1/2 top-2 transform -translate-x-1/2 "></div>
               </div>
-              <p class="text-ink/50 mt-2">Scroll verder!</p>
+              <p class="text-sm md:text-base text-ink/50 mt-2">Scroll verder!</p>
             </div>
             <div id="scroll-line" class="scroll-line rounded-full top-2 absolute left-1/2 -translate-x-1/2 w-1 h-3 opacity-0 text-ink/50"></div>
           </div>
@@ -108,19 +108,19 @@ function createMainHTML(): string {
     </div>
 
     <!-- Footer -->
-    <footer class="bg-ink text-paper pt-16 text-center">
+    <footer class="bg-ink text-paper pt-10 md:pt-16 text-center">
     <div class="container mx-auto px-4">
     <div class="flex flex-col md:flex-row items-center">
-      <div class="md:w-1/4 flex justify-center md:justify-start mb-8 md:mb-0 md:pl-16">
+      <div class="md:w-1/4 flex justify-center md:justify-start mb-6 md:mb-0 md:pl-16">
         <img 
           src="images/logo Kom op tegen Kanker verticaal.jpg" 
           alt="Logo" 
-          class="h-40 w-auto"
+          class="h-28 md:h-40 w-auto"
         />
       </div>
       
-      <div class="md:w-2/4 text-center">
-        <h2 class="text-3xl font-bold mb-8">Klaar om <span class="text-ktk">Kom op tegen kanker</span> te steunen?</h2>
+      <div class="md:w-2/4 text-center px-4">
+        <h2 class="text-2xl md:text-3xl font-bold mb-6 md:mb-8">Klaar om <span class="text-ktk">Kom op tegen kanker</span> te steunen?</h2>
         <div id="donate-target">
         ${DonateButton({
           text: "DOE EEN GIFT <i class='fa-regular fa-heart ml-2'></i>",
@@ -133,7 +133,7 @@ function createMainHTML(): string {
       <div class="md:w-1/4"></div>
     </div>
 
-    <div class="mt-8 text-center text-paper/70">
+    <div class="mt-6 md:mt-8 text-center text-paper/70 pb-4 md:pb-0">
       &copy; <a href="https://mitchcreates.info/"><span class="underline">MitchCreates</span> 2025</a>
     </div>
   </div>
