@@ -9,10 +9,9 @@ export interface Person {
 
 export interface PersonCardProps {
   person: Person;
-  isLeft: boolean; // true for left-aligned, false for right-aligned
 }
 
-export function PersonCard({ person, isLeft }: PersonCardProps): string {
+export function PersonCard({ person }: PersonCardProps): string {
   return `
     <section >
       <div>

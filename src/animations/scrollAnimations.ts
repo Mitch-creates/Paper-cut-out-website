@@ -111,108 +111,6 @@ export function setupScrollAnimations(): void {
     // initialize immediately with the current progress
     updateWords(heroST.progress);
 
-    // SVG reveal
-
-    const scrolly = document.querySelector(".scrolly") as HTMLElement | null;
-    if (!scrolly) return;
-
-    let { svg, maskPath, dashPath, dashGroup, mode } = getActiveSvgSet();
-
-    function prepMask() {
-      if (!maskPath) return;
-      const total = maskPath.getTotalLength();
-      maskPath.style.strokeDasharray = `${total}`;
-      maskPath.style.strokeDashoffset = `${total}`;
-    }
-
-    function appendTailToButtonIfDesktop() {
-      const targetEl = document.getElementById(
-        "donate-target"
-      ) as HTMLElement | null;
-      if (mode !== "desktop") return;
-      if (!maskPath || !dashPath || !targetEl || !svg) return;
-      // cache original d once
-      (dashPath as any)._origD ??= dashPath.getAttribute("d")!;
-      (maskPath as any)._origD ??= maskPath.getAttribute("d")!;
-      dashPath.setAttribute("d", (dashPath as any)._origD);
-      maskPath.setAttribute("d", (maskPath as any)._origD);
-
-      const vb = svg.viewBox.baseVal;
-      const r = svg.getBoundingClientRect();
-      const tr = targetEl.getBoundingClientRect();
-
-      // screen -> viewBox coords of button center
-      const tx =
-        vb.x + (tr.left + tr.width / 2 - r.left) * (vb.width / r.width);
-      const ty =
-        vb.y + (tr.top + tr.height / 2 - r.top) * (vb.height / r.height);
-
-      // direction at end of current path
-      const L = dashPath.getTotalLength();
-      const p1 = dashPath.getPointAtLength(Math.max(0, L - 1));
-      const p0 = dashPath.getPointAtLength(Math.max(0, L - 6));
-      const vx = p1.x - p0.x,
-        vy = p1.y - p0.y;
-      const m = Math.hypot(vx, vy) || 1;
-      const nx = vx / m,
-        ny = vy / m;
-
-      const handle = 220;
-      const c1x = p1.x + nx * handle,
-        c1y = p1.y + ny * handle;
-      const c2x = tx - nx * handle,
-        c2y = ty - ny * handle;
-
-      const d0 = (dashPath as any)._origD as string;
-      const d1 = `${d0} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${tx} ${ty}`;
-      dashPath.setAttribute("d", d1);
-      maskPath.setAttribute("d", d1);
-    }
-
-    appendTailToButtonIfDesktop();
-    prepMask();
-    if (dashGroup) gsap.set(dashGroup, { opacity: 1 });
-
-    if (!scrolly) return;
-
-    gsap.fromTo(
-      maskPath,
-      {
-        strokeDashoffset: () => maskPath.getTotalLength(),
-      },
-      {
-        strokeDashoffset: 0,
-        ease: "none",
-        immediateRender: false,
-        scrollTrigger: {
-          trigger: scrolly,
-          start: "top top",
-          end: () => "+=" + (scrolly.scrollHeight - window.innerHeight),
-          scrub: true,
-          invalidateOnRefresh: true,
-          onRefresh: () => {
-            appendTailToButtonIfDesktop();
-            prepMask();
-            if (dashGroup) gsap.set(dashGroup, { opacity: 1 });
-          },
-          onEnter: () => gsap.set(dashGroup, { opacity: 1 }),
-          onEnterBack: () => gsap.set(dashGroup, { opacity: 1 }),
-          onLeaveBack: () => {
-            gsap.set(dashGroup, { opacity: 0 });
-            // reset mask so nothing is drawn when hidden
-            const L = maskPath.getTotalLength();
-            maskPath.style.strokeDashoffset = String(L);
-          },
-        },
-      }
-    );
-
-    window.addEventListener("resize", () => {
-      appendTailToButtonIfDesktop();
-      prepMask();
-      ScrollTrigger.refresh();
-    });
-
     // mouse bounce
     bounceAnimation = gsap.to(scrollMouse, {
       y: "-=15",
@@ -224,40 +122,83 @@ export function setupScrollAnimations(): void {
   }, 100);
 }
 
-// utility to get the currently active set (mobile or desktop)
-function getActiveSvgSet() {
-  const mMask = document.getElementById(
-    "maskPathMobile"
-  ) as SVGPathElement | null;
-  const dMask = document.getElementById("maskPath") as SVGPathElement | null;
-  const mDash = document.getElementById(
-    "dashPathMobile"
-  ) as SVGPathElement | null;
-  const dDash = document.getElementById("dashPath") as SVGPathElement | null;
-  const mGroup = document.getElementById(
-    "dashGroupMobile"
-  ) as SVGGElement | null;
-  const dGroup = document.getElementById("dashGroup") as SVGGElement | null;
-  const mSvg = document.getElementById("guideMobile") as SVGSVGElement | null;
-  const dSvg = document.getElementById("guide") as SVGSVGElement | null;
+export function animateScrollLine(): void {
+  const path = document.querySelector("path");
 
-  const isVisible = (el: Element | null) =>
-    !!el && getComputedStyle(el).display !== "none";
+  const heroSection = document.querySelector(
+    ".hero-section"
+  ) as HTMLElement | null;
+  const footer = document.querySelector("footer") as HTMLElement | null;
+  const scrolly = document.querySelector(
+    ".scroll-line-section"
+  ) as HTMLElement | null;
 
-  if (isVisible(mSvg)) {
-    return {
-      svg: mSvg!,
-      maskPath: mMask!,
-      dashPath: mDash!,
-      dashGroup: mGroup!,
-      mode: "mobile" as const,
-    };
+  if (!path || !heroSection || !footer || !scrolly) return;
+  const pathLength = path.getTotalLength();
+
+  path.style.strokeDasharray = pathLength + " " + pathLength;
+
+  path.style.strokeDashoffset = pathLength + "px";
+
+  //Where drawing should begin
+  const heroTop = heroSection.offsetTop;
+  const heroBottom = heroTop + heroSection.offsetHeight;
+  const startAt = heroBottom - heroSection.offsetHeight * 0.3; // Means around 30% after heroSection
+
+  //Where drawing should end: at the top of the footer
+  const endAt = footer.offsetTop;
+
+  // If your fixed scrolly container needs enough height to cover until footer:
+  if (scrolly && scrolly.parentElement) {
+    const needed = Math.max(
+      endAt + window.innerHeight,
+      scrolly.parentElement.scrollHeight
+    );
+    (scrolly.parentElement as HTMLElement).style.height = `${needed}px`;
   }
-  return {
-    svg: dSvg!,
-    maskPath: dMask!,
-    dashPath: dDash!,
-    dashGroup: dGroup!,
-    mode: "desktop" as const,
+
+  const onScroll = () => {
+    requestAnimationFrame(() => {
+      const y = window.scrollY;
+
+      const range = Math.max(1, endAt - startAt);
+      const tRaw = (y - startAt) / range;
+      const t = Math.min(1, Math.max(0, tRaw));
+
+      const drawLength = pathLength * t;
+      path.style.strokeDashoffset = `${pathLength - drawLength}px`;
+    });
   };
+  onScroll();
+  window.addEventListener("scroll", onScroll);
 }
+
+// () => {
+//     // What % down is it?
+//     var scrollPercentage =
+//       (document.documentElement.scrollTop + document.body.scrollTop) /
+//       (document.documentElement.scrollHeight -
+//         document.documentElement.clientHeight);
+
+//     // Length to Offset the dashes
+//     var drawLength = pathLength * scrollPercentage;
+
+//     // Draw in reverse
+//     path.style.strokeDashoffset = pathLength - drawLength + "px";
+
+//     //Code to make the targets move slightly alongside the scrolling line
+//     // const target = document.querySelectorAll('.scroll');
+
+//     // var index= 0, length = target.length;
+//     // for (index; index < length; index++) {
+//     //   var pos = window.pageYOffset * target[index].dataset.rate;
+
+//     //   if (target[index].dataset.direction === 'vertical') {
+//     //     target[index].style.transform = `translate3d(0px, ${pos}px, 0px)`;
+//     //   } else {
+//     //     var posX = window.pageYOffset * target[index].dataset.ratex;
+//     //     var posY = window.pageYOffset * target[index].dataset.ratey;
+
+//     //     target[index].style.transform = 'translate3d('+posX +'px, '+'px, 0px)';
+//     //   }
+//     // }
