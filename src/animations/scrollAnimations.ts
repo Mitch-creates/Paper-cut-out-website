@@ -123,56 +123,58 @@ export function setupScrollAnimations(): void {
 }
 
 export function animateScrollLine(): void {
-  const path = document.querySelector("path");
+  const cover = document.querySelector<SVGPathElement>("#guide-cover");
+  const dotted = document.querySelector<SVGPathElement>("#guide-dotted");
+  const hero = document.querySelector<HTMLElement>(".hero-section");
+  const footer = document.querySelector<HTMLElement>("footer");
+  const layer = document.querySelector<HTMLElement>(".scroll-line-section");
+  if (!cover || !dotted || !hero || !footer || !layer) return;
 
-  const heroSection = document.querySelector(
-    ".hero-section"
-  ) as HTMLElement | null;
-  const footer = document.querySelector("footer") as HTMLElement | null;
-  const scrolly = document.querySelector(
-    ".scroll-line-section"
-  ) as HTMLElement | null;
+  const init = () => {
+    const L = cover.getTotalLength();
+    // single dash = solid stroke the full length
+    cover.style.strokeDasharray = `${L}`;
+    cover.style.strokeDashoffset = `0`; // fully covering dots at start
+    return L;
+  };
+  let L = init();
 
-  if (!path || !heroSection || !footer || !scrolly) return;
-  const pathLength = path.getTotalLength();
-
-  path.style.strokeDasharray = pathLength + " " + pathLength;
-
-  path.style.strokeDashoffset = pathLength + "px";
-
-  //Where drawing should begin
-  const heroTop = heroSection.offsetTop;
-  const heroBottom = heroTop + heroSection.offsetHeight;
-  const startAt = heroBottom - heroSection.offsetHeight * 0.3; // Means around 30% after heroSection
-
-  //Where drawing should end: at the top of the footer
+  // Map: start just after hero -> end at footer top
+  const heroBottom = hero.offsetTop + hero.offsetHeight;
+  const startAt = heroBottom;
   const endAt = footer.offsetTop;
 
-  // If your fixed scrolly container needs enough height to cover until footer:
-  if (scrolly && scrolly.parentElement) {
+  // Ensure enough scroll height for the fixed overlay
+  if (layer && layer.parentElement) {
     const needed = Math.max(
-      endAt + window.innerHeight,
-      scrolly.parentElement.scrollHeight
+      endAt - startAt + window.innerHeight,
+      layer.parentElement.scrollHeight
     );
-    (scrolly.parentElement as HTMLElement).style.height = `${needed}px`;
+    (layer.parentElement as HTMLElement).style.height = `${needed}px`;
   }
+
+  const clamp01 = (x: number) => Math.max(0, Math.min(1, x));
 
   const onScroll = () => {
     requestAnimationFrame(() => {
       const y = window.scrollY;
-
-      const range = Math.max(1, endAt - startAt);
-      const tRaw = (y - startAt) / range;
-      const t = Math.min(1, Math.max(0, tRaw));
-
-      const drawLength = pathLength * t;
-      path.style.strokeDashoffset = `${pathLength - drawLength}px`;
+      const t = clamp01((y - startAt) / Math.max(1, endAt - startAt));
+      // slide the solid cover forward to uncover the dots
+      cover.style.strokeDashoffset = `${-L * t}`;
     });
   };
+
+  const onResize = () => {
+    L = init();
+    onScroll();
+  };
+  window.addEventListener("resize", onResize);
+
   onScroll();
-  window.addEventListener("scroll", onScroll);
+  window.addEventListener("scroll", onScroll, { passive: true });
 }
 
+// Code to make elements move slightly alongside the scrolling line USED OR DELETED later
 // () => {
 //     // What % down is it?
 //     var scrollPercentage =
