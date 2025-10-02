@@ -122,6 +122,22 @@ export function setupScrollAnimations(): void {
   }, 100);
 }
 
+function isMobile(): boolean {
+  return window.matchMedia("(max-width: 640px)").matches;
+}
+
+function getActivePath(): SVGPathElement {
+  return window.matchMedia("(max-width: 640px)").matches
+    ? (document.querySelector("#guide-dotted-mobile") as SVGPathElement)
+    : (document.querySelector("#guide-dotted") as SVGPathElement);
+}
+
+function svgToScreen(svg: SVGSVGElement, x: number, y: number) {
+  const m = svg.getScreenCTM();
+  const p = new DOMPoint(x, y).matrixTransform(m!);
+  return { x: p.x, y: p.y };
+}
+
 export function animateScrollLine(): void {
   const cover = document.querySelector<SVGPathElement>("#guide-cover");
   const dotted = document.querySelector<SVGPathElement>("#guide-dotted");
@@ -134,10 +150,6 @@ export function animateScrollLine(): void {
   const layer = document.querySelector<HTMLElement>(".scroll-line-section");
   if (!cover || !dotted || !hero || !footer || !layer || !dottedM || !svgGuide)
     return;
-
-  function isMobile(): boolean {
-    return window.matchMedia("(max-width: 640px)").matches;
-  }
 
   const pickPath = () => (isMobile() ? dottedM : dotted);
 
@@ -171,7 +183,7 @@ export function animateScrollLine(): void {
   // Map: start just after hero -> end at footer top
   const heroBottom = hero.offsetTop + hero.offsetHeight;
   const startAt = heroBottom;
-  const endAt = footer.offsetTop * 1.03; // Added a bit extra to ensure a full reveal
+  const endAt = footer.offsetTop * 1.05; // Added a bit extra to ensure a full reveal
 
   // Ensure enough scroll height for the fixed overlay
   if (layer && layer.parentElement) {
@@ -184,12 +196,41 @@ export function animateScrollLine(): void {
 
   const clamp01 = (x: number) => Math.max(0, Math.min(1, x));
 
+  const marks = [
+    { id: "m25", pct: 0.25 },
+    { id: "m50", pct: 0.5 },
+    { id: "m75", pct: 0.75 },
+  ];
+
+  function positionMarks() {
+    if (!svgGuide || !layer) return; // Exit if svgGuide is null
+
+    for (const m of marks) {
+      const el = document.getElementById(m.id)!; // absolutely positioned
+      const pt = calculatePositionOnScreenBasedOfPercentageOfPath(
+        m.pct,
+        svgGuide,
+        layer
+      );
+      el.style.position = "absolute";
+      el.style.left = `${pt.x}px`;
+      el.style.top = `${pt.y}px`;
+      el.style.transform = `translate(-50%, -50%)`; // or rotate to tangent:
+      // el.style.transform = `translate(-50%, -50%) rotate(${pt.angleDeg}deg)`;
+    }
+  }
+  positionMarks();
+
   const onScroll = () => {
     requestAnimationFrame(() => {
       const y = window.scrollY;
       const t = clamp01((y - startAt) / Math.max(1, endAt - startAt));
-      // slide the solid cover forward to uncover the dots
       cover.style.strokeDashoffset = `${-L * t}`;
+
+      for (const m of marks) {
+        const el = document.getElementById(m.id)!;
+        el.classList.toggle("visible", t >= m.pct - 0.001);
+      }
     });
   };
 
@@ -197,11 +238,34 @@ export function animateScrollLine(): void {
     swapPathIfNeeded();
     L = init();
     onScroll();
+    positionMarks();
   };
   window.addEventListener("resize", onResize);
 
   onScroll();
   window.addEventListener("scroll", onScroll, { passive: true });
+}
+
+function calculatePositionOnScreenBasedOfPercentageOfPath(
+  pct: number,
+  svg: SVGSVGElement,
+  relativeTo: HTMLElement
+): { x: number; y: number; angleDeg: number } {
+  const path = getActivePath();
+  const L = path.getTotalLength();
+  const s = Math.max(0, Math.min(L, pct * L));
+
+  const p1 = path.getPointAtLength(s);
+  const p2 = path.getPointAtLength(Math.min(L, s + 1)); // small step forward
+
+  const sp1 = svgToScreen(svg, p1.x, p1.y);
+  const sp2 = svgToScreen(svg, p2.x, p2.y);
+
+  const angleDeg = Math.atan2(sp2.y - sp1.y, sp2.x - sp1.x) * (180 / Math.PI);
+
+  // convert to coords relative to your overlay container
+  const r = relativeTo.getBoundingClientRect();
+  return { x: sp1.x - r.left, y: sp1.y - r.top, angleDeg };
 }
 
 // Code to make elements move slightly alongside the scrolling line USED OR DELETED later

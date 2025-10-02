@@ -7,18 +7,11 @@
   --drop-shadow-paper: 0 10px 25px rgba(43, 43, 43, 0.15);
 }
 
-#svg-guide {
-  color: #f6f1e8; /* your paper bg for the cover stroke */
-  --stroke-w: clamp(3px, 0.5vw, 8px);
-  --dash: clamp(6px, 0.8vw, 14px);
-  --gap: clamp(6px, 0.8vw, 14px);
-}
-
 @media (max-width: 640px) {
   #svg-guide {
-    --stroke-w: clamp(3px, 0.9vw, 6px);
-    --dash: clamp(4px, 1.4vw, 10px);
-    --gap: clamp(4px, 1.4vw, 10px);
+    --stroke-w: clamp(6px, 2vw, 10px);
+    --dash: clamp(8px, 3vw, 20px);
+    --gap: clamp(8px, 4vw, 20px);
   }
   #guide-dotted {
     display: none;
@@ -29,6 +22,12 @@
 }
 
 @media (min-width: 641px) {
+  #svg-guide {
+    color: #f6f1e8;
+    --stroke-w: clamp(3px, 0.5vw, 8px);
+    --dash: clamp(6px, 0.8vw, 14px);
+    --gap: clamp(6px, 0.8vw, 14px);
+  }
   #guide-dotted {
     display: block;
   }

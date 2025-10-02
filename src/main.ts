@@ -67,8 +67,13 @@ function createMainHTML(): string {
 
 <path id="guide-cover" d="" stroke="#f5f2ea" style="stroke-width: calc(var(--stroke-w) + 2px); stroke-linecap: round"/>
 </svg>
+<p id="m25">10km</p>
+<p id="m50">20km</p>
+<p id="m75">30km</p>
 </section>
 </div>
+
+
 
 
     <!-- Footer -->
