@@ -67,9 +67,17 @@ function createMainHTML(): string {
 
 <path id="guide-cover" d="" stroke="#f5f2ea" style="stroke-width: calc(var(--stroke-w) + 2px); stroke-linecap: round"/>
 </svg>
-<p id="m25" class="absolute hidden">10km</p>
-<p id="m50" class="absolute hidden">20km</p>
-<p id="m75" class="absolute hidden">30km</p>
+<p id="m25">10km</p>
+<p id="m50">20km</p>
+<p id="m75">30km</p>
+<p id="runner1" style="--runner-color: #FF5733;">1A</p>
+<p id="runner2" style="--runner-color: #FF5733;">2A</p>
+<p id="runner3" style="--runner-color: #FF5733;">3A</p>
+<p id="runner4" style="--runner-color: #FF5733;">4A</p>
+<p id="runner5" style="--runner-color: #33C1FF;">1B</p>
+<p id="runner6" style="--runner-color: #33C1FF;">2B</p>
+<p id="runner7" style="--runner-color: #33C1FF;">3B</p>
+<p id="runner8" style="--runner-color: #33C1FF;">4B</p>
 </section>
 </div>
 

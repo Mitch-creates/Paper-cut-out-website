@@ -3,6 +3,25 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const words = ["READY", "SET", "GO!"] as const;
+
+const checkpoints = [
+  { id: "m25", pct: 0.25 },
+  { id: "m50", pct: 0.5 },
+  { id: "m75", pct: 0.75 },
+];
+
+const runners = [
+  { id: "runner1", group: "A", pct: 0.03 },
+  { id: "runner2", group: "A", pct: 0.25 },
+  { id: "runner3", group: "A", pct: 0.5 },
+  { id: "runner4", group: "A", pct: 0.75 },
+  { id: "runner5", group: "B", pct: 0.03 },
+  { id: "runner6", group: "B", pct: 0.25 },
+  { id: "runner7", group: "B", pct: 0.5 },
+  { id: "runner8", group: "B", pct: 0.75 },
+];
+
 export function setupScrollAnimations(): void {
   // --- cache DOM once
   const scrollMouse = document.getElementById("scroll-mouse");
@@ -12,8 +31,6 @@ export function setupScrollAnimations(): void {
   const wordsEl = document.getElementById(
     "scroll-words-text"
   ) as HTMLElement | null;
-
-  const words = ["READY", "SET", "GO!"] as const;
 
   if (!scrollMouse || !wordsWrap || !wordsEl) {
     console.warn("Scroll animation elements not found");
@@ -173,7 +190,6 @@ export function animateScrollLine(): void {
   const init = () => {
     cover.setAttribute("d", active.getAttribute("d") || "");
     const L = cover.getTotalLength();
-    // single dash = solid stroke the full length
     cover.style.strokeDasharray = `${L}`;
     cover.style.strokeDashoffset = `0`; // fully covering dots at start
     return L;
@@ -196,31 +212,60 @@ export function animateScrollLine(): void {
 
   const clamp01 = (x: number) => Math.max(0, Math.min(1, x));
 
-  const marks = [
-    { id: "m25", pct: 0.25 },
-    { id: "m50", pct: 0.5 },
-    { id: "m75", pct: 0.75 },
-  ];
-
-  function positionMarks() {
+  function positionElements() {
     if (!svgGuide || !layer) return; // Exit if svgGuide is null
 
-    for (const m of marks) {
-      const el = document.getElementById(m.id)!; // absolutely positioned
+    for (const m of checkpoints) {
+      const el = document.getElementById(m.id)!;
       const pt = calculatePositionOnScreenBasedOfPercentageOfPath(
         m.pct,
         svgGuide,
         layer
       );
       el.style.position = "absolute";
+      el.classList.add("hidden");
       el.style.left = `${pt.x}px`;
       el.style.top = `${pt.y}px`;
-      el.style.transform = `translate(-50%, -50%)`; // or rotate to tangent:
-
-      // el.style.transform = `translate(-50%, -50%) rotate(${pt.angleDeg}deg)`;
+      el.style.transform = `translate(-50%, -50%)`; // add rotate(${pt.angleDeg}deg) to rotate to tangent
+    }
+    for (const r of runners) {
+      const el = document.getElementById(r.id)!;
+      const pt = calculatePositionOnScreenBasedOfPercentageOfPath(
+        r.pct,
+        svgGuide,
+        layer
+      );
+      el.style.position = "absolute";
+      // el.classList.add("hidden");
+      //TODO rewrite for it to be more readable
+      el.style.left = `${
+        isMobile()
+          ? r.group === "A"
+            ? pt.x * 0.75
+            : pt.x * 1.25
+          : r.group === "A"
+          ? r.id === "runner1" || r.id === "runner3"
+            ? pt.x * 1.3
+            : pt.x * 0.6
+          : r.id === "runner5" || r.id === "runner7"
+          ? pt.x * 1.35
+          : pt.x * 0.55
+      }px`;
+      el.style.top = `${
+        isMobile()
+          ? r.group === "A"
+            ? r.id === "runner4"
+              ? pt.y * 1.07
+              : pt.y
+            : pt.y
+          : r.group === "A"
+          ? pt.y
+          : pt.y
+      }px`;
+      el.style.transform = `translate(-50%, -50%)`;
     }
   }
-  positionMarks();
+  positionElements();
 
   const onScroll = () => {
     requestAnimationFrame(() => {
@@ -228,7 +273,7 @@ export function animateScrollLine(): void {
       const t = clamp01((y - startAt) / Math.max(1, endAt - startAt));
       cover.style.strokeDashoffset = `${-L * t}`;
 
-      for (const m of marks) {
+      for (const m of checkpoints) {
         const el = document.getElementById(m.id)!;
         el.classList.toggle("hidden", t < m.pct);
       }
@@ -239,7 +284,7 @@ export function animateScrollLine(): void {
     swapPathIfNeeded();
     L = init();
     onScroll();
-    positionMarks();
+    positionElements();
   };
   window.addEventListener("resize", onResize);
 
@@ -264,38 +309,7 @@ function calculatePositionOnScreenBasedOfPercentageOfPath(
 
   const angleDeg = Math.atan2(sp2.y - sp1.y, sp2.x - sp1.x) * (180 / Math.PI);
 
-  // convert to coords relative to your overlay container
+  // convert to coordinates relative to your overlay container
   const r = relativeTo.getBoundingClientRect();
   return { x: sp1.x - r.left, y: sp1.y - r.top, angleDeg };
 }
-
-// Code to make elements move slightly alongside the scrolling line USED OR DELETED later
-// () => {
-//     // What % down is it?
-//     var scrollPercentage =
-//       (document.documentElement.scrollTop + document.body.scrollTop) /
-//       (document.documentElement.scrollHeight -
-//         document.documentElement.clientHeight);
-
-//     // Length to Offset the dashes
-//     var drawLength = pathLength * scrollPercentage;
-
-//     // Draw in reverse
-//     path.style.strokeDashoffset = pathLength - drawLength + "px";
-
-//     //Code to make the targets move slightly alongside the scrolling line
-//     // const target = document.querySelectorAll('.scroll');
-
-//     // var index= 0, length = target.length;
-//     // for (index; index < length; index++) {
-//     //   var pos = window.pageYOffset * target[index].dataset.rate;
-
-//     //   if (target[index].dataset.direction === 'vertical') {
-//     //     target[index].style.transform = `translate3d(0px, ${pos}px, 0px)`;
-//     //   } else {
-//     //     var posX = window.pageYOffset * target[index].dataset.ratex;
-//     //     var posY = window.pageYOffset * target[index].dataset.ratey;
-
-//     //     target[index].style.transform = 'translate3d('+posX +'px, '+'px, 0px)';
-//     //   }
-//     // }
