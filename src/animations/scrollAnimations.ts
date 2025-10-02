@@ -216,6 +216,7 @@ export function animateScrollLine(): void {
       el.style.left = `${pt.x}px`;
       el.style.top = `${pt.y}px`;
       el.style.transform = `translate(-50%, -50%)`; // or rotate to tangent:
+
       // el.style.transform = `translate(-50%, -50%) rotate(${pt.angleDeg}deg)`;
     }
   }
@@ -229,7 +230,7 @@ export function animateScrollLine(): void {
 
       for (const m of marks) {
         const el = document.getElementById(m.id)!;
-        el.classList.toggle("visible", t >= m.pct - 0.001);
+        el.classList.toggle("hidden", t < m.pct);
       }
     });
   };
