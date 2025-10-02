@@ -171,7 +171,7 @@ export function animateScrollLine(): void {
   // Map: start just after hero -> end at footer top
   const heroBottom = hero.offsetTop + hero.offsetHeight;
   const startAt = heroBottom;
-  const endAt = footer.offsetTop;
+  const endAt = footer.offsetTop * 1.03; // Added a bit extra to ensure a full reveal
 
   // Ensure enough scroll height for the fixed overlay
   if (layer && layer.parentElement) {
