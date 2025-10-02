@@ -125,12 +125,41 @@ export function setupScrollAnimations(): void {
 export function animateScrollLine(): void {
   const cover = document.querySelector<SVGPathElement>("#guide-cover");
   const dotted = document.querySelector<SVGPathElement>("#guide-dotted");
+  const dottedM = document.querySelector<SVGPathElement>(
+    "#guide-dotted-mobile"
+  )!;
+  const svgGuide = document.querySelector<SVGSVGElement>("#svg-guide");
   const hero = document.querySelector<HTMLElement>(".hero-section");
   const footer = document.querySelector<HTMLElement>("footer");
   const layer = document.querySelector<HTMLElement>(".scroll-line-section");
-  if (!cover || !dotted || !hero || !footer || !layer) return;
+  if (!cover || !dotted || !hero || !footer || !layer || !dottedM || !svgGuide)
+    return;
+
+  function isMobile(): boolean {
+    return window.matchMedia("(max-width: 640px)").matches;
+  }
+
+  const pickPath = () => (isMobile() ? dottedM : dotted);
+
+  let active = pickPath();
+
+  const swapPathIfNeeded = () => {
+    const newActive = pickPath();
+
+    if (newActive !== active) {
+      // Update the active reference
+      active = newActive;
+    }
+    if (isMobile()) {
+      svgGuide.setAttribute("viewBox", "0 0 390 2227");
+    } else {
+      svgGuide.setAttribute("viewBox", "0 0 1285 2100");
+    }
+  };
+  swapPathIfNeeded();
 
   const init = () => {
+    cover.setAttribute("d", active.getAttribute("d") || "");
     const L = cover.getTotalLength();
     // single dash = solid stroke the full length
     cover.style.strokeDasharray = `${L}`;
@@ -165,6 +194,7 @@ export function animateScrollLine(): void {
   };
 
   const onResize = () => {
+    swapPathIfNeeded();
     L = init();
     onScroll();
   };
