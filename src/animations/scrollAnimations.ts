@@ -236,7 +236,7 @@ export function animateScrollLine(): void {
         layer
       );
       el.style.position = "absolute";
-      // el.classList.add("hidden");
+      el.classList.add("hidden");
       //TODO rewrite for it to be more readable
       el.style.left = `${
         isMobile()
@@ -276,6 +276,10 @@ export function animateScrollLine(): void {
       for (const m of checkpoints) {
         const el = document.getElementById(m.id)!;
         el.classList.toggle("hidden", t < m.pct);
+      }
+      for (const r of runners) {
+        const el = document.getElementById(r.id)!;
+        el.classList.toggle("hidden", t < r.pct);
       }
     });
   };
