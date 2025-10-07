@@ -26,6 +26,15 @@
   #guide-dotted-mobile {
     display: block;
   }
+
+  .checkpoint-svg {
+    width: clamp(50px, 15vw, 80px); /* Scale with viewport width */
+    height: auto;
+  }
+
+  .checkpoint .label {
+    font-size: clamp(18px, 5vw, 24px); /* Responsive text size */
+  }
 }
 
 @media (min-width: 641px) {
@@ -40,6 +49,15 @@
   }
   #guide-dotted-mobile {
     display: none;
+  }
+
+  .checkpoint-svg {
+    width: clamp(60px, 5vw, 100px);
+    height: auto;
+  }
+
+  .checkpoint .label {
+    font-size: clamp(20px, 2vw, 28px);
   }
 }
 
@@ -70,4 +88,14 @@ html {
 
 #svg-guide #guide {
   stroke-width: clamp(3px, 0.6vw, 10px); /* min, fluid, max */
+}
+
+.checkpoint {
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+.checkpoint-svg {
+  width: 117px;
+  height: 92px;
+  transform-style: preserve-3d;
 }

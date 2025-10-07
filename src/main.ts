@@ -4,6 +4,7 @@ import {
   animateScrollLine,
 } from "./animations/scrollAnimations";
 import DonateButton from "./components/DonateButton";
+import CheckPoint from "./components/CheckPoint";
 
 // Create the main page structure
 function createMainHTML(): string {
@@ -67,9 +68,19 @@ function createMainHTML(): string {
 
 <path id="guide-cover" d="" stroke="var(--color-t-lightblue)" style="stroke-width: calc(var(--stroke-w) + 2px); stroke-linecap: round"/>
 </svg>
-<p id="m25">10km</p>
-<p id="m50">20km</p>
-<p id="m75">30km</p>
+
+
+${CheckPoint({ id: "m25", color: "var(--color-t-pink)", label: "10 KM" })}
+${CheckPoint({ id: "m50", color: "var(--color-t-pink)", label: "20 KM" })}
+${CheckPoint({ id: "m75", color: "var(--color-t-pink)", label: "30 KM" })}
+
+${DonateButton({
+  text: "DOE EEN GIFT <i id='donate-icon' class='fa-solid animate-bounce fa-heart ml-2'></i>",
+  color: "inverted",
+  href: "https://google.com",
+})}
+
+
 <p id="runner1" style="--runner-color: #FF5733;">1A</p>
 <p id="runner2" style="--runner-color: #FF5733;">2A</p>
 <p id="runner3" style="--runner-color: #FF5733;">3A</p>

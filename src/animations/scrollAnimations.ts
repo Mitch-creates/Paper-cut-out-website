@@ -5,6 +5,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 const words = ["READY", "SET", "GO!"] as const;
 
+const played = new Set<string>();
+
 const checkpoints = [
   { id: "m25", pct: 0.25 },
   { id: "m50", pct: 0.5 },
@@ -223,11 +225,15 @@ export function animateScrollLine(): void {
         svgGuide,
         layer
       );
+
       el.style.position = "absolute";
       el.classList.add("hidden");
       el.style.left = `${pt.x}px`;
       el.style.top = `${pt.y}px`;
-      el.style.transform = `translate(-50%, -50%)`; // add rotate(${pt.angleDeg}deg) to rotate to tangent
+      el.style.transform = `translate(-50%, -96%) rotate(${determineAndAdjustRotationOfTheLine(
+        pt.angleDeg
+      )}deg)`;
+      primeCheckpoint(el);
     }
     for (const r of runners) {
       const el = document.getElementById(r.id)!;
@@ -267,6 +273,9 @@ export function animateScrollLine(): void {
     }
   }
   positionElements();
+  setCheckpointLabel("m25", "10 KM");
+  setCheckpointLabel("m50", "20 KM");
+  setCheckpointLabel("m75", "30 KM");
 
   const onScroll = () => {
     requestAnimationFrame(() => {
@@ -276,7 +285,10 @@ export function animateScrollLine(): void {
 
       for (const m of checkpoints) {
         const el = document.getElementById(m.id)!;
-        el.classList.toggle("hidden", t < m.pct);
+        const shouldBeVisible = t >= m.pct;
+        const wasHidden = el.classList.contains("hidden");
+        el.classList.toggle("hidden", !shouldBeVisible);
+        if (shouldBeVisible && wasHidden) playCheckpoint(el);
       }
       for (const r of runners) {
         const el = document.getElementById(r.id)!;
@@ -302,6 +314,11 @@ function calculatePositionOnScreenBasedOfPercentageOfPath(
   svg: SVGSVGElement,
   relativeTo: HTMLElement
 ): { x: number; y: number; angleDeg: number } {
+  if (isMobile()) {
+    svg.setAttribute("viewBox", "0 0 390 2227");
+  } else {
+    svg.setAttribute("viewBox", "0 0 1285 2100");
+  }
   const path = getActivePath();
   const L = path.getTotalLength();
   const s = Math.max(0, Math.min(L, pct * L));
@@ -317,4 +334,68 @@ function calculatePositionOnScreenBasedOfPercentageOfPath(
   // convert to coordinates relative to your overlay container
   const r = relativeTo.getBoundingClientRect();
   return { x: sp1.x - r.left, y: sp1.y - r.top, angleDeg };
+}
+
+function primeCheckpoint(el: HTMLElement) {
+  const sign = el.querySelector<SVGGElement>(".sign");
+  if (!sign) return;
+  gsap.set(sign, {
+    transformOrigin: "50% 100%", // hinge at bottom edge (the rope attachment point)
+    rotateX: -90, // lying flat (face down, invisible from front)
+    yPercent: 12,
+    opacity: 1, // Make it visible but flat
+    willChange: "transform, opacity",
+  });
+}
+
+function playCheckpoint(el: HTMLElement) {
+  const id = el.id;
+  if (played.has(id)) return;
+  played.add(id);
+
+  const sign = el.querySelector<SVGGElement>(".sign");
+  if (!sign) return;
+
+  // TODO
+  gsap
+    .timeline()
+    .to(
+      sign,
+      {
+        rotateX: -10,
+        yPercent: 0,
+        duration: 0.4,
+        ease: "power2.out",
+      },
+      0
+    )
+    .to(
+      sign,
+      {
+        rotateX: 0,
+        duration: 0.3,
+        ease: "back.out(1.2)",
+      },
+      ">-0.1"
+    );
+}
+
+function setCheckpointLabel(id: string, text: string) {
+  const el = document.getElementById(id)!;
+  const label = el.querySelector<SVGTextElement>(".label");
+  if (label) label.textContent = text;
+}
+
+function determineAndAdjustRotationOfTheLine(rotation: number) {
+  while (rotation > 180) rotation -= 360;
+  while (rotation < -180) rotation += 360;
+
+  if (Math.abs(rotation) > 90) {
+    rotation = rotation - 180;
+  }
+
+  while (rotation > 180) rotation -= 360;
+  while (rotation < -180) rotation += 360;
+
+  return rotation;
 }
