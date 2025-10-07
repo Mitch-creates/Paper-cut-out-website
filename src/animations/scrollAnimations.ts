@@ -38,7 +38,7 @@ export function setupScrollAnimations(): void {
   }
 
   // thresholds across the HERO section scroll
-  const T = { show: 0.11, readyEnd: 0.2, setEnd: 0.3, hide: 0.4 };
+  const T = { show: 0.11, readyEnd: 0.2, setEnd: 0.3, hide: 0.5 };
   const EPS = 0.003;
 
   let lastIdx: 0 | 1 | 2 = 0;
@@ -57,7 +57,8 @@ export function setupScrollAnimations(): void {
       onComplete: () => {
         if (!wordsEl) return;
         wordsEl.textContent = words[i];
-        wordsEl.style.color = i === 2 ? "#F5A500" : "rgba(43,43,43,0.7)";
+        wordsEl.style.color =
+          i === 2 ? "var(--color-t-pink)" : "rgba(43,43,43,0.7)";
         gsap.fromTo(
           wordsEl,
           { opacity: 0, y: 8 },

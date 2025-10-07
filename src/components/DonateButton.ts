@@ -14,8 +14,8 @@ export default function DonateButton({
   onClick,
 }: DonateButtonProps) {
   const colorStyles = {
-    normal: "bg-ktk hover:bg-white text-white hover:text-ktk",
-    inverted: "bg-white hover:bg-ktk text-ktk hover:text-white",
+    normal: "bg-white hover:bg-t-pink text-t-pink hover:text-white",
+    inverted: "bg-t-pink hover:bg-white text-white hover:text-t-pink",
   };
   return `
     <a
