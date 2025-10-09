@@ -14,6 +14,11 @@ function createMainHTML(): string {
       <div class="absolute inset-0"></div>
       <div class="relative z-10 flex items-center justify-center min-h-screen">
         <div class="text-center space-y-6 md:space-y-8 p-4 md:p-8">
+         ${DonateButton({
+           text: "DOE EEN GIFT <i id='donate-icon' class='fa-solid animate-bounce fa-heart ml-2 text-3xl md:text-4xl'></i>",
+           color: "inverted",
+           href: "https://google.com",
+         })}
           <div id="group-photo-container" class="group-photo-container invisible mb-6 md:mb-8">
             <img 
               src="/images/Groepsfoto.jpg" 
@@ -28,11 +33,7 @@ function createMainHTML(): string {
           <p class="text-xl md:text-2xl text-ink/70 max-w-2xl mx-auto leading-relaxed px-4">
             Actienummer: 340183185
           </p>
-          ${DonateButton({
-            text: "DOE EEN GIFT <i id='donate-icon' class='fa-solid animate-bounce fa-heart ml-2 text-3xl md:text-4xl'></i>",
-            color: "inverted",
-            href: "https://google.com",
-          })}
+         
           <!-- Scroll Indicator -->
           <div class="mt-10 md:mt-16 relative h-100% w-100%">
             <div id="scroll-mouse" class="scroll-mouse mx-auto">
