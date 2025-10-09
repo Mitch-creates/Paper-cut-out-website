@@ -232,7 +232,7 @@ export function animateScrollLine(): void {
       el.style.top = `${pt.y}px`;
       el.style.transform = `translate(-50%, -96%) rotate(${determineAndAdjustRotationOfTheLine(
         pt.angleDeg
-      )}deg)`;
+      )}deg)`; // TODO add exceptions for mobile
       primeCheckpoint(el);
     }
     for (const r of runners) {
@@ -303,16 +303,7 @@ export function animateScrollLine(): void {
     onScroll();
     positionElements();
   };
-  const relayout = () => {
-    swapPathIfNeeded();
-    L = init();
-    positionElements();
-    onScroll();
-  };
-  window.addEventListener("resize", relayout);
-  if (window.visualViewport) {
-    window.visualViewport.addEventListener("resize", relayout);
-  }
+  window.addEventListener("resize", onResize);
 
   onScroll();
   window.addEventListener("scroll", onScroll, { passive: true });

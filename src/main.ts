@@ -5,6 +5,9 @@ import {
 } from "./animations/scrollAnimations";
 import DonateButton from "./components/DonateButton";
 import CheckPoint from "./components/CheckPoint";
+import ModalScreen, { openModal } from "./components/ModalScreen";
+
+(window as any).openModal = openModal;
 
 // Create the main page structure
 function createMainHTML(): string {
@@ -85,15 +88,25 @@ ${DonateButton({
   href: "https://google.com",
 })}
 
+${ModalScreen({
+  person: {
+    name: "",
+    distance: "",
+    imageSrc: "",
+    motivation: "",
+    backgroundColor: "t-pink",
+  },
+})}
 
-<p id="runner1" style="--runner-color: #FF5733;">1A</p>
-<p id="runner2" style="--runner-color: #FF5733;">2A</p>
-<p id="runner3" style="--runner-color: #FF5733;">3A</p>
-<p id="runner4" style="--runner-color: #FF5733;">4A</p>
-<p id="runner5" style="--runner-color: #33C1FF;">1B</p>
-<p id="runner6" style="--runner-color: #33C1FF;">2B</p>
-<p id="runner7" style="--runner-color: #33C1FF;">3B</p>
-<p id="runner8" style="--runner-color: #33C1FF;">4B</p>
+
+<a class="cursor-pointer" onClick="openModal(0)"><p id="runner1">1A</p></a>
+<a class="cursor-pointer" onClick="openModal(1)"><p id="runner2">2A</p></a>
+<a class="cursor-pointer" onClick="openModal(2)"><p id="runner3">3A</p></a>
+<a class="cursor-pointer" onClick="openModal(3)"><p id="runner4">4A</p></a>
+<a class="cursor-pointer" onClick="openModal(4)"><p id="runner5">1B</p></a>
+<a class="cursor-pointer" onClick="openModal(5)"><p id="runner6">2B</p></a>
+<a class="cursor-pointer" onClick="openModal(6)"><p id="runner7">3B</p></a>
+<a class="cursor-pointer" onClick="openModal(7)"><p class="border-2" id="runner8">4B</p></a>
 </section>
 </div>
 
@@ -155,3 +168,12 @@ setTimeout(() => {
   setupScrollAnimations();
   animateScrollLine();
 }, 100);
+
+// Setup event listeners
+document.querySelectorAll("[data-runner]").forEach((element) => {
+  element.addEventListener("click", (e) => {
+    e.preventDefault();
+    const runnerId = parseInt(element.getAttribute("data-runner") || "0");
+    openModal(runnerId);
+  });
+});
