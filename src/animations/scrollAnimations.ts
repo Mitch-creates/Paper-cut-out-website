@@ -303,7 +303,16 @@ export function animateScrollLine(): void {
     onScroll();
     positionElements();
   };
-  window.addEventListener("resize", onResize);
+  const relayout = () => {
+    swapPathIfNeeded();
+    L = init();
+    positionElements();
+    onScroll();
+  };
+  window.addEventListener("resize", relayout);
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener("resize", relayout);
+  }
 
   onScroll();
   window.addEventListener("scroll", onScroll, { passive: true });

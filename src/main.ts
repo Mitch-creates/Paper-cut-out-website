@@ -15,8 +15,8 @@ function createMainHTML(): string {
       <div class="relative z-10 flex items-center justify-center min-h-screen">
         <div class="text-center space-y-6 md:space-y-8 p-4 md:p-8">
          ${DonateButton({
-           text: "DOE EEN GIFT <i id='donate-icon' class='fa-solid animate-bounce fa-heart ml-2 text-3xl md:text-4xl'></i>",
-           color: "inverted",
+           text: "DOE EEN GIFT <i id='donate-icon' class='fa-solid fa-heart ml-2 text-3xl md:text-4xl'></i>",
+           color: "normal_red",
            href: "https://google.com",
          })}
           <div id="group-photo-container" class="group-photo-container invisible mb-6 md:mb-8">
