@@ -7,50 +7,25 @@ export interface ModalScreenProps {
 
 export default function ModalScreen({ person }: ModalScreenProps): string {
   const { name, distance, imageSrc, motivation, backgroundColor } = person;
-  return `<div id="modal" class="hidden fixed inset-0 bg-${backgroundColor} bg-opacity-90 flex items-center justify-center z-50 p-4">
-    <div class="bg-white rounded-lg shadow-lg p-6 max-w-sm mx-auto">
-      <h2 class="text-xl font-bold mb-2">${name}</h2>
-      <p class="text-gray-700 mb-4">Distance: ${distance}</p>
-      <img src="${imageSrc}" alt="${name}" class="w-full h-auto rounded-lg mb-4" />
-      <p class="text-gray-700 mb-4">Motivation: ${motivation}</p>
-      <button class="bg-${backgroundColor} text-white px-4 py-2 rounded">Close</button>
+  return `<el-dialog>
+  <dialog id="dialog" class="fixed inset-0 z-[100] size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
+    <div id="backdrop" class="fixed inset-0 bg-gray-900/50 transition-opacity flex items-center justify-center">
+    <div class="relative">
+    <button data-close-modal class="absolute -top-14 -left-10 text-white hover:text-gray-300 border-2 border-white/70 cursor-pointer w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10" aria-label="Close modal">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+    <div class="rounded-lg shadow-lg p-6 max-w-lg" style="background-color: var(--color-${backgroundColor})">
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <h2 class="text-2xl font-bold text-white mb-2">${name} <span class="text-white mb-4 italic">${distance} km</span></h2>
+        <img src="${imageSrc}" alt="${name}" class="w-32 h-32 rounded-full mb-4 object-cover border-4 border-white/70">
+        <p class="text-white text-center max-w-md">${motivation}</p>
+      </div>
     </div>
-  </div>`;
-}
+    </div>
+    </div>
 
-export function openModal(runnerId: number) {
-  const runner = getPeopleById(runnerId);
-  const modal = document.getElementById("modal");
-
-  if (modal && runner) {
-    // Update the modal content instead of replacing innerHTML completely
-    modal.classList.remove("hidden");
-
-    // Find and update specific elements within the modal
-    const nameEl = modal.querySelector("h2");
-    const distanceEl = modal.querySelector("p:first-of-type");
-    const imgEl = modal.querySelector("img");
-    const motivationEl = modal.querySelector("p:last-of-type");
-
-    if (nameEl) nameEl.textContent = runner.name;
-    if (distanceEl) distanceEl.textContent = `Distance: ${runner.distance}`;
-    if (imgEl) {
-      imgEl.src = runner.imageSrc;
-      imgEl.alt = runner.name;
-    }
-    if (motivationEl)
-      motivationEl.textContent = `Motivation: ${runner.motivation}`;
-
-    // Prevent body scroll
-    document.body.style.overflow = "hidden";
-  }
-}
-
-export function closeModal() {
-  const modal = document.getElementById("modal");
-  if (modal) {
-    modal.classList.add("hidden");
-    // Restore body scroll
-    document.body.style.overflow = "";
-  }
+    
+  </dialog>
+</el-dialog>`;
 }

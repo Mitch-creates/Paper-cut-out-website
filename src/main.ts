@@ -5,9 +5,7 @@ import {
 } from "./animations/scrollAnimations";
 import DonateButton from "./components/DonateButton";
 import CheckPoint from "./components/CheckPoint";
-import ModalScreen, { openModal } from "./components/ModalScreen";
-
-(window as any).openModal = openModal;
+import ModalScreen from "./components/ModalScreen";
 
 // Create the main page structure
 function createMainHTML(): string {
@@ -51,7 +49,7 @@ function createMainHTML(): string {
       </div>
       <!-- READY, SET, GO! -->
       <div id="scroll-words"
-     class="fixed inset-0 z-[100] pointer-events-none flex items-center justify-center invisible">
+     class="fixed inset-0 z-[90] pointer-events-none flex items-center justify-center invisible">
   <div id="scroll-words-text"
        class="select-none font-extrabold tracking-tight
               text-4xl md:text-6xl text-ink/90">
@@ -88,25 +86,25 @@ ${DonateButton({
   href: "https://google.com",
 })}
 
+
+
+<a class="cursor-pointer" data-runner="1A"><p id="runner1">1A</p></a>
+<a class="cursor-pointer" data-runner="2A"><p id="runner2">2A</p></a>
+<a class="cursor-pointer" data-runner="3A"><p id="runner3">3A</p></a>
+<a class="cursor-pointer" data-runner="4A"><p id="runner4">4A</p></a>
+<a class="cursor-pointer" data-runner="1B"><p id="runner5">1B</p></a>
+<a class="cursor-pointer" data-runner="2B"><p id="runner6">2B</p></a>
+<a class="cursor-pointer" data-runner="3B"><p id="runner7">3B</p></a>
+<a class="cursor-pointer" data-runner="4B"><p id="runner8">4B</p></a>
 ${ModalScreen({
   person: {
-    name: "",
-    distance: "",
-    imageSrc: "",
-    motivation: "",
+    name: "Annelies",
+    distance: "20",
+    imageSrc: "images/lady.jpg",
+    motivation: "Ik loop heel graag",
     backgroundColor: "t-pink",
   },
 })}
-
-
-<a class="cursor-pointer" onClick="openModal(0)"><p id="runner1">1A</p></a>
-<a class="cursor-pointer" onClick="openModal(1)"><p id="runner2">2A</p></a>
-<a class="cursor-pointer" onClick="openModal(2)"><p id="runner3">3A</p></a>
-<a class="cursor-pointer" onClick="openModal(3)"><p id="runner4">4A</p></a>
-<a class="cursor-pointer" onClick="openModal(4)"><p id="runner5">1B</p></a>
-<a class="cursor-pointer" onClick="openModal(5)"><p id="runner6">2B</p></a>
-<a class="cursor-pointer" onClick="openModal(6)"><p id="runner7">3B</p></a>
-<a class="cursor-pointer" onClick="openModal(7)"><p class="border-2" id="runner8">4B</p></a>
 </section>
 </div>
 
@@ -169,11 +167,69 @@ setTimeout(() => {
   animateScrollLine();
 }, 100);
 
-// Setup event listeners
-document.querySelectorAll("[data-runner]").forEach((element) => {
-  element.addEventListener("click", (e) => {
-    e.preventDefault();
-    const runnerId = parseInt(element.getAttribute("data-runner") || "0");
-    openModal(runnerId);
+function setupModalHandlers() {
+  // Handle runner clicks
+  document.addEventListener("click", (e) => {
+    const target = e.target as HTMLElement;
+    const runnerLink = target.closest("[data-runner]") as HTMLElement;
+
+    if (runnerLink) {
+      e.preventDefault();
+      const runnerId = runnerLink.getAttribute("data-runner");
+      showModal(runnerId);
+    }
   });
-});
+
+  // Handle modal close
+  const modal = document.getElementById("dialog");
+  const backdrop = modal?.querySelector("#backdrop");
+  const closeButton = modal?.querySelector("[data-close-modal]");
+
+  if (closeButton) {
+    closeButton.addEventListener("click", closeModal);
+  }
+
+  // Close on overlay click
+  backdrop?.addEventListener("click", closeModal);
+
+  // Close on escape key
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      closeModal();
+    }
+  });
+}
+
+function showModal(runnerId: string | null) {
+  const modal = document.getElementById("dialog");
+  if (!modal || !runnerId) return;
+
+  // Update modal content based on runner
+  const modalTitle = modal.querySelector("h2");
+  const modalContent = modal.querySelector(".modal-content");
+
+  if (modalTitle) {
+    modalTitle.textContent = `Runner ${runnerId}`;
+  }
+
+  // Show modal
+  modal.classList.remove("invisible");
+  modal.classList.add("flex");
+
+  // Prevent body scroll
+  document.body.style.overflow = "hidden";
+}
+
+function closeModal() {
+  const modal = document.getElementById("dialog");
+  if (!modal) return;
+
+  modal.classList.add("invisible");
+  modal.classList.remove("flex");
+
+  // Restore body scroll
+  document.body.style.overflow = "";
+}
+
+// Setup everything
+setupModalHandlers();
