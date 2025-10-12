@@ -244,7 +244,6 @@ export function animateScrollLine(): void {
       );
       el.style.position = "absolute";
       el.classList.add("hidden");
-      //TODO rewrite for it to be more readable
       el.style.left = `${
         isMobile()
           ? r.group === "A"

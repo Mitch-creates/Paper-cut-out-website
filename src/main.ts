@@ -87,14 +87,14 @@ ${DonateButton({
 
 
 
-<a class="cursor-pointer" data-runner="1A"><i class="fa-solid fa-person-running fa-3x text-t-pink" id="runner1"></i> </a>
-<a class="cursor-pointer" data-runner="2A"><i class="fa-solid fa-person-running fa-3x text-t-pink" id="runner2"></i> </a>
-<a class="cursor-pointer" data-runner="3A"><i class="fa-solid fa-person-running fa-3x text-t-pink" id="runner3"></i> </a>
-<a class="cursor-pointer" data-runner="4A"><i class="fa-solid fa-person-running fa-3x text-t-pink" id="runner4"></i> </a>
-<a class="cursor-pointer" data-runner="1B"><i class="fa-solid fa-person-running fa-3x text-t-pink" id="runner5"></i> </a>
-<a class="cursor-pointer" data-runner="2B"><i class="fa-solid fa-person-running fa-3x text-t-pink" id="runner6"></i> </a>
-<a class="cursor-pointer" data-runner="3B"><i class="fa-solid fa-person-running fa-3x text-t-pink" id="runner7"></i> </a>
-<a class="cursor-pointer" data-runner="4B"><i class="fa-solid fa-person-running fa-3x text-t-pink" id="runner8"></i> </a>
+<a class="cursor-pointer hidden" id="runner1" data-runner="1A"><i class="fa-solid fa-person-running fa-3x text-t-pink"></i> </a>
+<a class="cursor-pointer hidden" id="runner2" data-runner="2A"><i class="fa-solid fa-person-running fa-3x text-t-pink"></i> </a>
+<a class="cursor-pointer hidden" id="runner3" data-runner="3A"><i class="fa-solid fa-person-running fa-3x text-t-pink"></i> </a>
+<a class="cursor-pointer hidden" id="runner4" data-runner="4A"><i class="fa-solid fa-person-running fa-3x text-t-pink"></i> </a>
+<a class="cursor-pointer hidden" id="runner5" data-runner="1B"><i class="fa-solid fa-person-running fa-3x text-t-pink"></i> </a>
+<a class="cursor-pointer hidden" id="runner6" data-runner="2B"><i class="fa-solid fa-person-running fa-3x text-t-pink"></i> </a>
+<a class="cursor-pointer hidden" id="runner7" data-runner="3B"><i class="fa-solid fa-person-running fa-3x text-t-pink"></i> </a>
+<a class="cursor-pointer hidden" id="runner8" data-runner="4B"><i class="fa-solid fa-person-running fa-3x text-t-pink"></i> </a>
 ${ModalScreen({
   person: {
     name: "Annelies",
