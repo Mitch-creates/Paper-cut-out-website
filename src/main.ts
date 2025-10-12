@@ -87,14 +87,14 @@ ${DonateButton({
 
 
 
-<a class="cursor-pointer" data-runner="1A"><p id="runner1">1A</p></a>
-<a class="cursor-pointer" data-runner="2A"><p id="runner2">2A</p></a>
-<a class="cursor-pointer" data-runner="3A"><p id="runner3">3A</p></a>
-<a class="cursor-pointer" data-runner="4A"><p id="runner4">4A</p></a>
-<a class="cursor-pointer" data-runner="1B"><p id="runner5">1B</p></a>
-<a class="cursor-pointer" data-runner="2B"><p id="runner6">2B</p></a>
-<a class="cursor-pointer" data-runner="3B"><p id="runner7">3B</p></a>
-<a class="cursor-pointer" data-runner="4B"><p id="runner8">4B</p></a>
+<a class="cursor-pointer" data-runner="1A"><i class="fa-solid fa-person-running fa-3x text-t-pink" id="runner1"></i> </a>
+<a class="cursor-pointer" data-runner="2A"><i class="fa-solid fa-person-running fa-3x text-t-pink" id="runner2"></i> </a>
+<a class="cursor-pointer" data-runner="3A"><i class="fa-solid fa-person-running fa-3x text-t-pink" id="runner3"></i> </a>
+<a class="cursor-pointer" data-runner="4A"><i class="fa-solid fa-person-running fa-3x text-t-pink" id="runner4"></i> </a>
+<a class="cursor-pointer" data-runner="1B"><i class="fa-solid fa-person-running fa-3x text-t-pink" id="runner5"></i> </a>
+<a class="cursor-pointer" data-runner="2B"><i class="fa-solid fa-person-running fa-3x text-t-pink" id="runner6"></i> </a>
+<a class="cursor-pointer" data-runner="3B"><i class="fa-solid fa-person-running fa-3x text-t-pink" id="runner7"></i> </a>
+<a class="cursor-pointer" data-runner="4B"><i class="fa-solid fa-person-running fa-3x text-t-pink" id="runner8"></i> </a>
 ${ModalScreen({
   person: {
     name: "Annelies",
