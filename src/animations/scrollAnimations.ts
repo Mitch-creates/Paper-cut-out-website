@@ -231,7 +231,8 @@ export function animateScrollLine(): void {
       el.style.left = `${pt.x}px`;
       el.style.top = `${pt.y}px`;
       el.style.transform = `translate(-50%, -96%) rotate(${determineAndAdjustRotationOfTheLine(
-        pt.angleDeg
+        pt.angleDeg,
+        m.pct
       )}deg)`; // TODO add exceptions for mobile
       primeCheckpoint(el);
     }
@@ -385,7 +386,7 @@ function setCheckpointLabel(id: string, text: string) {
   if (label) label.textContent = text;
 }
 
-function determineAndAdjustRotationOfTheLine(rotation: number) {
+function determineAndAdjustRotationOfTheLine(rotation: number, pct?: number) {
   while (rotation > 180) rotation -= 360;
   while (rotation < -180) rotation += 360;
 
@@ -395,6 +396,15 @@ function determineAndAdjustRotationOfTheLine(rotation: number) {
 
   while (rotation > 180) rotation -= 360;
   while (rotation < -180) rotation += 360;
+
+  // Fix for mobile view
+  if (isMobile()) {
+    if (pct === 0.5) {
+      rotation -= 60;
+    } else if (pct === 0.75) {
+      rotation -= 30;
+    }
+  }
 
   return rotation;
 }
