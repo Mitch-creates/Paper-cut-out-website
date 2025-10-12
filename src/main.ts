@@ -7,7 +7,6 @@ import DonateButton from "./components/DonateButton";
 import CheckPoint from "./components/CheckPoint";
 import ModalScreen from "./components/ModalScreen";
 
-// Create the main page structure
 function createMainHTML(): string {
   return `
     <!-- Hero Section with Group Photo -->

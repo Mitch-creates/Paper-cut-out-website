@@ -1,5 +1,4 @@
 import type { Person } from "../data/people";
-import { getPeopleById } from "../data/people";
 
 export interface ModalScreenProps {
   person: Person;
