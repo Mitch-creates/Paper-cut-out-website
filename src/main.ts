@@ -100,8 +100,9 @@ ${ModalScreen({
   person: {
     name: "Annelies",
     distance: "20",
-    imageSrc: "images/lady.jpg",
-    motivation: "Ik loop heel graag",
+    imageSrc: "images/granit.png",
+    motivation:
+      "Ik loop heel graag, ik heb speciaal voor deze loop nieuwe loopschoenen aangeschaft, let's get it on!",
     backgroundColor: "t-pink",
   },
 })}
@@ -117,7 +118,7 @@ ${ModalScreen({
     <div class="flex flex-col md:flex-row items-center">
       <div class="md:w-1/4 flex justify-center md:justify-start mb-6 md:mb-0 md:pl-16">
         <img 
-          src="images/logo Kom op tegen Kanker verticaal.jpg" 
+          src="images/transparent_ktk_logo.png" 
           alt="Logo" 
           class="h-28 md:h-40 w-auto"
         />
