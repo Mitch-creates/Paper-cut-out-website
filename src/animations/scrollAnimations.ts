@@ -274,6 +274,30 @@ export function animateScrollLine(): void {
 
       primeRunner(el);
     }
+    positionClickArrow();
+  }
+
+  function positionClickArrow() {
+    const arrow = document.getElementById("click-arrow");
+    if (!arrow || !svgGuide || !layer) return;
+
+    // Choose target runner based on screen size
+    const targetRunnerId = isMobile() ? "runner1" : "runner5";
+    const targetRunner = runners.find((r) => r.id === targetRunnerId);
+
+    if (!targetRunner) return;
+
+    const pt = calculatePositionOnScreenBasedOfPercentageOfPath(
+      targetRunner.pct,
+      svgGuide,
+      layer
+    );
+    // Adjust offsets based on screen size
+    const offsetX = isMobile() ? -60 : -80;
+    const offsetY = isMobile() ? -80 : -100;
+
+    arrow.style.left = `${pt.x + offsetX}px`;
+    arrow.style.top = `${pt.y + offsetY}px`;
   }
 
   positionElements();
@@ -286,6 +310,7 @@ export function animateScrollLine(): void {
       const y = window.scrollY;
       const t = clamp01((y - startAt) / Math.max(1, endAt - startAt));
       cover.style.strokeDashoffset = `${-L * t}`;
+      const arrow = document.getElementById("click-arrow");
 
       for (const m of checkpoints) {
         const el = document.getElementById(m.id)!;
@@ -302,6 +327,11 @@ export function animateScrollLine(): void {
         el.classList.toggle("hidden", !shouldBeVisible);
         if (shouldBeVisible && wasHidden) {
           playRunner(el);
+        }
+        if (r.id === "runner1" && arrow && isMobile()) {
+          arrow.classList.toggle("hidden", !shouldBeVisible);
+        } else if (r.id === "runner5" && arrow) {
+          arrow.classList.toggle("hidden", !shouldBeVisible);
         }
       }
     });

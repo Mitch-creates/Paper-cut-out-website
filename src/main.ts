@@ -85,6 +85,22 @@ ${DonateButton({
   href: "https://google.com",
 })}
 
+<div id="click-arrow" class="hidden fixed z-100 pointer-events-none">
+  <div class="relative">
+    <!-- Arrow SVG -->
+    <svg class="w-16 h-16 md:w-20 md:h-20 text-white " fill="currentColor" viewBox="0 0 24 24">
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+      <path d="M12 8v8M8 12l4 4 4-4"/>
+    </svg>
+    <!-- Text -->
+    <div class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
+      <span class="text-white px-3 py-1 rounded-full text-sm font-medium shadow-lg">
+        Klik op ons!
+      </span>
+    </div>
+  </div>
+</div>
+
 
 
 <a class="cursor-pointer hidden" id="runner1" data-runner="1A"><i id="runner" class="fa-solid fa-person-running fa-3x text-t-pink"></i> </a>
@@ -112,7 +128,7 @@ ${ModalScreen({
 
 
     <!-- Footer -->
-    <footer class="bg-t-purple text-paper pt-10 md:pt-16 text-center z-20 relative">
+    <footer class="bg-t-purple text-paper pt-10 md:pt-16 text-center z-30 relative">
     <div class="container mx-auto px-4">
     <div class="flex flex-col md:flex-row items-center">
       <div class="md:w-1/4 flex justify-center md:justify-start mb-6 md:mb-0 md:pl-16">
