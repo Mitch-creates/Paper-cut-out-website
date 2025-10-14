@@ -370,6 +370,28 @@ function playRunner(el: HTMLElement) {
   if (played.has(id)) return;
   played.add(id);
 
+  gsap
+    .timeline()
+    .to(
+      el,
+      {
+        rotateY: 60,
+        yPercent: 0,
+        duration: 0.4,
+        ease: "power2.out",
+      },
+      0
+    )
+    .to(
+      el,
+      {
+        rotateY: 0,
+        duration: 0.3,
+        ease: "back.out(1.2)",
+      },
+      ">-0.1"
+    );
+
   gsap.to(el, {
     opacity: 1,
     duration: 0.5,
