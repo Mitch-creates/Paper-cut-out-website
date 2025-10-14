@@ -292,12 +292,36 @@ export function animateScrollLine(): void {
       svgGuide,
       layer
     );
-    // Adjust offsets based on screen size
-    const offsetX = isMobile() ? -60 : -80;
-    const offsetY = isMobile() ? -80 : -100;
 
-    arrow.style.left = `${pt.x + offsetX}px`;
-    arrow.style.top = `${pt.y + offsetY}px`;
+    // Initialize with default values
+    let runnerX = pt.x;
+    let runnerY = pt.y;
+
+    if (targetRunnerId === "runner1") {
+      // Runner1 positioning logic
+      runnerX = isMobile()
+        ? pt.x * 0.6 // Group A on mobile
+        : pt.x * 1.28; // runner1 on desktop (runner1 || runner3 case)
+
+      runnerY = isMobile()
+        ? pt.y // Group A, not runner4
+        : pt.y; // Group A on desktop
+    } else if (targetRunnerId === "runner5") {
+      // Runner5 positioning logic
+      runnerX = isMobile()
+        ? pt.x * 1.3 // Group B on mobile
+        : pt.x * 1.35; // runner5 on desktop (runner5 || runner7 case)
+
+      runnerY = isMobile()
+        ? pt.y // Group B on mobile
+        : pt.y; // Group B on desktop
+    }
+    // Adjust offsets based on screen size
+    const offsetX = isMobile() ? -60 : 30;
+    const offsetY = isMobile() ? 50 : 60;
+
+    arrow.style.left = `${runnerX + offsetX}px`;
+    arrow.style.top = `${runnerY + offsetY}px`;
   }
 
   positionElements();

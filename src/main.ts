@@ -85,18 +85,13 @@ ${DonateButton({
   href: "https://google.com",
 })}
 
-<div id="click-arrow" class="hidden fixed z-100 pointer-events-none">
-  <div class="relative">
-    <!-- Arrow SVG -->
-    <svg class="w-16 h-16 md:w-20 md:h-20 text-white " fill="currentColor" viewBox="0 0 24 24">
-      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-      <path d="M12 8v8M8 12l4 4 4-4"/>
-    </svg>
-    <!-- Text -->
+<div id="click-arrow" class="hidden fixed z-30 pointer-events-none">
+  <div class="relative text-white">
+    <i class="fa-solid fa-arrow-down text-3xl md:text-4xl"></i>
     <div class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
-      <span class="text-white px-3 py-1 rounded-full text-sm font-medium shadow-lg">
+      <p class="text-white text-sm font-light shadow-lg">
         Klik op ons!
-      </span>
+      </p>
     </div>
   </div>
 </div>
