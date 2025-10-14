@@ -391,12 +391,6 @@ function playRunner(el: HTMLElement) {
       },
       ">-0.1"
     );
-
-  gsap.to(el, {
-    opacity: 1,
-    duration: 0.5,
-    ease: "power2.out",
-  });
 }
 
 function playCheckpoint(el: HTMLElement) {
