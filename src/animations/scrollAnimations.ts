@@ -221,7 +221,6 @@ export function animateScrollLine(): void {
     for (const m of checkpoints) {
       const el = document.getElementById(m.id)!;
 
-      isMobile() && m.id === "m50" ? m.pct - 0.07 : m.pct;
       const pt = calculatePositionOnScreenBasedOfPercentageOfPath(
         isMobile() && m.id === "m50" ? m.pct - 0.07 : m.pct,
         svgGuide,
@@ -376,6 +375,7 @@ function playRunner(el: HTMLElement) {
       {
         rotateY: 60,
         yPercent: 0,
+        opacity: 0.8,
         duration: 0.4,
         ease: "power2.out",
       },
@@ -385,6 +385,7 @@ function playRunner(el: HTMLElement) {
       el,
       {
         rotateY: 0,
+        opacity: 1,
         duration: 0.3,
         ease: "back.out(1.2)",
       },
