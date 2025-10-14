@@ -220,11 +220,10 @@ export function animateScrollLine(): void {
 
     for (const m of checkpoints) {
       const el = document.getElementById(m.id)!;
-      if (isMobile() && m.id === "m50") {
-        m.pct -= 0.07;
-      }
+
+      isMobile() && m.id === "m50" ? m.pct - 0.07 : m.pct;
       const pt = calculatePositionOnScreenBasedOfPercentageOfPath(
-        m.pct,
+        isMobile() && m.id === "m50" ? m.pct - 0.07 : m.pct,
         svgGuide,
         layer
       );
@@ -235,7 +234,7 @@ export function animateScrollLine(): void {
       el.style.top = `${pt.y}px`;
       el.style.transform = `translate(-50%, -96%) rotate(${determineAndAdjustRotationOfTheLine(
         pt.angleDeg,
-        m.pct
+        isMobile() && m.id === "m50" ? m.pct - 0.07 : m.pct
       )}deg)`;
       primeCheckpoint(el);
     }
