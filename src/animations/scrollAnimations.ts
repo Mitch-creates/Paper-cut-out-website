@@ -358,7 +358,6 @@ function primeCheckpoint(el: HTMLElement) {
 
 function primeRunner(el: HTMLElement) {
   gsap.set(el, {
-    opacity: 0,
     willChange: "transform, opacity",
   });
 }
@@ -375,7 +374,6 @@ function playRunner(el: HTMLElement) {
       {
         rotateY: 60,
         yPercent: 0,
-        opacity: 0.8,
         duration: 0.4,
         ease: "power2.out",
       },
@@ -385,7 +383,6 @@ function playRunner(el: HTMLElement) {
       el,
       {
         rotateY: 0,
-        opacity: 1,
         duration: 0.3,
         ease: "back.out(1.2)",
       },
