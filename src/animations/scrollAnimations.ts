@@ -301,8 +301,7 @@ export function animateScrollLine(): void {
         const shouldBeVisible = t >= r.pct;
         const wasHidden = el.classList.contains("hidden");
 
-        el.classList.toggle("hidden", t < r.pct);
-
+        el.classList.toggle("hidden", !shouldBeVisible);
         if (shouldBeVisible && wasHidden) {
           playRunner(el);
         }
@@ -355,7 +354,6 @@ function primeCheckpoint(el: HTMLElement) {
   gsap.set(sign, {
     transformOrigin: "50% 100%", // hinge at bottom edge (the rope attachment point)
     yPercent: 20,
-    opacity: 1, // Make it visible but flat
     willChange: "transform, opacity",
   });
 }
