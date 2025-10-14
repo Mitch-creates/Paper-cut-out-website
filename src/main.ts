@@ -22,7 +22,7 @@ function createMainHTML(): string {
           <div id="group-photo-container" class="group-photo-container invisible mb-6 md:mb-8">
             <img 
               src="/images/Groepsfoto.jpg" 
-              alt="Our Amazing Team"
+              alt="Het Led's Run Team bij Signify"
               id="hero-image"
               class="w-auto h-64 md:h-96 mx-auto rounded-xl md:rounded-2xl shadow-t-yellow border-2 md:border-4 border-t-yellow"
             />

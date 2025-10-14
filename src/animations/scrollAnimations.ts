@@ -220,6 +220,9 @@ export function animateScrollLine(): void {
 
     for (const m of checkpoints) {
       const el = document.getElementById(m.id)!;
+      if (isMobile() && m.id === "m50") {
+        m.pct -= 0.07;
+      }
       const pt = calculatePositionOnScreenBasedOfPercentageOfPath(
         m.pct,
         svgGuide,
@@ -233,7 +236,7 @@ export function animateScrollLine(): void {
       el.style.transform = `translate(-50%, -96%) rotate(${determineAndAdjustRotationOfTheLine(
         pt.angleDeg,
         m.pct
-      )}deg)`; // TODO add exceptions for mobile
+      )}deg)`;
       primeCheckpoint(el);
     }
     for (const r of runners) {
@@ -248,15 +251,15 @@ export function animateScrollLine(): void {
       el.style.left = `${
         isMobile()
           ? r.group === "A"
-            ? pt.x * 0.75
-            : pt.x * 1.25
+            ? pt.x * 0.6
+            : pt.x * 1.3
           : r.group === "A"
           ? r.id === "runner1" || r.id === "runner3"
-            ? pt.x * 1.3
+            ? pt.x * 1.28
             : pt.x * 0.6
           : r.id === "runner5" || r.id === "runner7"
           ? pt.x * 1.35
-          : pt.x * 0.55
+          : pt.x * 0.68
       }px`;
       el.style.top = `${
         isMobile()
@@ -270,8 +273,11 @@ export function animateScrollLine(): void {
           : pt.y
       }px`;
       el.style.transform = `translate(-50%, -50%)`;
+
+      primeRunner(el);
     }
   }
+
   positionElements();
   setCheckpointLabel("m25", "10 KM");
   setCheckpointLabel("m50", "20 KM");
@@ -292,7 +298,14 @@ export function animateScrollLine(): void {
       }
       for (const r of runners) {
         const el = document.getElementById(r.id)!;
+        const shouldBeVisible = t >= r.pct;
+        const wasHidden = el.classList.contains("hidden");
+
         el.classList.toggle("hidden", t < r.pct);
+
+        if (shouldBeVisible && wasHidden) {
+          playRunner(el);
+        }
       }
     });
   };
@@ -341,10 +354,28 @@ function primeCheckpoint(el: HTMLElement) {
   if (!sign) return;
   gsap.set(sign, {
     transformOrigin: "50% 100%", // hinge at bottom edge (the rope attachment point)
-    rotateX: -90, // lying flat (face down, invisible from front)
-    yPercent: 12,
+    yPercent: 20,
     opacity: 1, // Make it visible but flat
     willChange: "transform, opacity",
+  });
+}
+
+function primeRunner(el: HTMLElement) {
+  gsap.set(el, {
+    opacity: 0,
+    willChange: "transform, opacity",
+  });
+}
+
+function playRunner(el: HTMLElement) {
+  const id = el.id;
+  if (played.has(id)) return;
+  played.add(id);
+
+  gsap.to(el, {
+    opacity: 1,
+    duration: 0.5,
+    ease: "power2.out",
   });
 }
 
