@@ -23,8 +23,9 @@ export default function DonateButton({
       href="${href}"
       target="${target}"
       rel="${target === "_blank" ? "noopener noreferrer" : ""}"
-      class="inline-flex items-center justify-center px-6 py-3 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 shadow-
-            ${colorStyles[color]}"
+      class="inline-flex items-center justify-center px-6 py-3 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 shadow-lg shadow-${
+        colorStyles[color]
+      } ${colorStyles[color]}"
       onclick="${onClick ? "event.preventDefault();" : ""}"
     >
       ${text}

@@ -119,7 +119,7 @@ ${ModalScreen({
         <img 
           src="images/transparent_ktk_logo.png" 
           alt="Logo" 
-          class="h-28 md:h-40 w-auto"
+          class="h-28 md:h-40 w-auto "
         />
       </div>
       
