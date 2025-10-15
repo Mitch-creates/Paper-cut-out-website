@@ -14,17 +14,27 @@ function createMainHTML(): string {
       <div class="absolute inset-0"></div>
       <div class="relative z-10 flex items-center justify-center min-h-screen">
         <div class="text-center space-y-6 md:space-y-8 p-4 md:p-8">
+        <div class="hidden md:block mb-6 md:mb-8 absolute top-20 left-25 z-20">
          ${DonateButton({
            text: "DOE EEN GIFT <i id='donate-icon' class='fa-solid fa-heart ml-2 text-3xl md:text-4xl'></i>",
            color: "normal_red",
-           href: "https://google.com",
+           href: "https://www.komoptegenkanker.be/actie/code/340183185",
          })}
+         </div>
+         <div class="md:hidden mb-6 md:mb-8">
+         ${DonateButton({
+           text: "DOE EEN GIFT <i id='donate-icon' class='fa-solid fa-heart ml-2 text-3xl md:text-4xl'></i>",
+           color: "normal_red",
+           href: "https://www.komoptegenkanker.be/actie/code/340183185",
+         })}
+          </div>
+
           <div id="group-photo-container" class="group-photo-container invisible mb-6 md:mb-8">
             <img 
               src="/images/Groepsfoto.jpg" 
               alt="Het Led's Run Team bij Signify"
               id="hero-image"
-              class="w-auto h-64 md:h-96 mx-auto rounded-xl md:rounded-2xl shadow-t-yellow border-2 md:border-4 border-t-yellow"
+              class="w-auto h-64 md:h-96 mx-auto rounded-xl md:rounded-2xl shadow-xl"
             />
           </div>
           
@@ -79,24 +89,6 @@ ${CheckPoint({ id: "m25", color: "var(--color-t-pink)", label: "10 KM" })}
 ${CheckPoint({ id: "m50", color: "var(--color-t-pink)", label: "20 KM" })}
 ${CheckPoint({ id: "m75", color: "var(--color-t-pink)", label: "30 KM" })}
 
-${DonateButton({
-  text: "DOE EEN GIFT <i id='donate-icon' class='fa-solid animate-bounce fa-heart ml-2'></i>",
-  color: "inverted",
-  href: "https://google.com",
-})}
-
-<div id="click-arrow" class="hidden fixed z-30 pointer-events-none">
-  <div class="relative text-white">
-    <i class="fa-solid fa-arrow-down text-3xl md:text-4xl"></i>
-    <div class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
-      <p class="text-white text-sm font-light shadow-lg">
-        Klik op ons!
-      </p>
-    </div>
-  </div>
-</div>
-
-
 
 <a class="cursor-pointer hidden" id="runner1" data-runner="1A"><i id="runner" class="fa-solid fa-person-running fa-3x text-t-pink"></i> </a>
 <a class="cursor-pointer hidden" id="runner2" data-runner="2A"><i id="runner" class="fa-solid fa-person-running fa-3x text-t-pink"></i> </a>
@@ -140,7 +132,7 @@ ${ModalScreen({
         ${DonateButton({
           text: "DOE EEN GIFT <i id='donate-icon' class='fa-solid animate-bounce fa-heart ml-2 text-3xl md:text-4xl'></i>",
           color: "inverted",
-          href: "https://google.com",
+          href: "https://www.komoptegenkanker.be/actie/code/340183185",
         })}
         </div>
       </div>

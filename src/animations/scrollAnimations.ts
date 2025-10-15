@@ -271,59 +271,8 @@ export function animateScrollLine(): void {
           : pt.y
       }px`;
       el.style.transform = `translate(-50%, -50%)`;
-
-      primeRunner(el);
     }
-    positionClickArrow();
   }
-
-  function positionClickArrow() {
-    const arrow = document.getElementById("click-arrow");
-    if (!arrow || !svgGuide || !layer) return;
-
-    // Choose target runner based on screen size
-    const targetRunnerId = isMobile() ? "runner1" : "runner5";
-    const targetRunner = runners.find((r) => r.id === targetRunnerId);
-
-    if (!targetRunner) return;
-
-    const pt = calculatePositionOnScreenBasedOfPercentageOfPath(
-      targetRunner.pct,
-      svgGuide,
-      layer
-    );
-
-    // Initialize with default values
-    let runnerX = pt.x;
-    let runnerY = pt.y;
-
-    if (targetRunnerId === "runner1") {
-      // Runner1 positioning logic
-      runnerX = isMobile()
-        ? pt.x * 0.6 // Group A on mobile
-        : pt.x * 1.28; // runner1 on desktop (runner1 || runner3 case)
-
-      runnerY = isMobile()
-        ? pt.y // Group A, not runner4
-        : pt.y; // Group A on desktop
-    } else if (targetRunnerId === "runner5") {
-      // Runner5 positioning logic
-      runnerX = isMobile()
-        ? pt.x * 1.3 // Group B on mobile
-        : pt.x * 1.35; // runner5 on desktop (runner5 || runner7 case)
-
-      runnerY = isMobile()
-        ? pt.y // Group B on mobile
-        : pt.y; // Group B on desktop
-    }
-    // Adjust offsets based on screen size
-    const offsetX = isMobile() ? -60 : 30;
-    const offsetY = isMobile() ? 50 : 60;
-
-    arrow.style.left = `${runnerX + offsetX}px`;
-    arrow.style.top = `${runnerY + offsetY}px`;
-  }
-
   positionElements();
   setCheckpointLabel("m25", "10 KM");
   setCheckpointLabel("m50", "20 KM");
@@ -334,7 +283,6 @@ export function animateScrollLine(): void {
       const y = window.scrollY;
       const t = clamp01((y - startAt) / Math.max(1, endAt - startAt));
       cover.style.strokeDashoffset = `${-L * t}`;
-      const arrow = document.getElementById("click-arrow");
 
       for (const m of checkpoints) {
         const el = document.getElementById(m.id)!;
@@ -346,17 +294,8 @@ export function animateScrollLine(): void {
       for (const r of runners) {
         const el = document.getElementById(r.id)!;
         const shouldBeVisible = t >= r.pct;
-        const wasHidden = el.classList.contains("hidden");
 
         el.classList.toggle("hidden", !shouldBeVisible);
-        if (shouldBeVisible && wasHidden) {
-          playRunner(el);
-        }
-        if (r.id === "runner1" && arrow && isMobile()) {
-          arrow.classList.toggle("hidden", !shouldBeVisible);
-        } else if (r.id === "runner5" && arrow) {
-          arrow.classList.toggle("hidden", !shouldBeVisible);
-        }
       }
     });
   };
@@ -408,40 +347,6 @@ function primeCheckpoint(el: HTMLElement) {
     yPercent: 20,
     willChange: "transform, opacity",
   });
-}
-
-function primeRunner(el: HTMLElement) {
-  gsap.set(el, {
-    willChange: "transform, opacity",
-  });
-}
-
-function playRunner(el: HTMLElement) {
-  const id = el.id;
-  if (played.has(id)) return;
-  played.add(id);
-
-  gsap
-    .timeline()
-    .to(
-      el,
-      {
-        rotateY: 60,
-        yPercent: 0,
-        duration: 0.4,
-        ease: "power2.out",
-      },
-      0
-    )
-    .to(
-      el,
-      {
-        rotateY: 0,
-        duration: 0.3,
-        ease: "back.out(1.2)",
-      },
-      ">-0.1"
-    );
 }
 
 function playCheckpoint(el: HTMLElement) {
