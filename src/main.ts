@@ -21,7 +21,7 @@ function createMainHTML(): string {
           <p class="text-2xl text-ink/70 mb-8 max-w-2xl mx-auto leading-relaxed">
             Actienummer: 340183185
           </p>
-          <div class="flex justify-center">
+          <div class="flex justify-center mb-8">
           ${DonateButton({
             text: "DOE EEN GIFT <i id='donate-icon' class='fa-solid fa-heart ml-2 text-3xl md:text-4xl'></i>",
             color: "normal_red",
@@ -29,7 +29,7 @@ function createMainHTML(): string {
           })}
           </div>
          </div>
-         <div class="md:hidden mb-6 md:mb-8">
+         <div class="md:hidden mb-6">
          ${DonateButton({
            text: "DOE EEN GIFT <i id='donate-icon' class='fa-solid fa-heart ml-2 text-3xl md:text-4xl'></i>",
            color: "normal_red",
@@ -42,13 +42,13 @@ function createMainHTML(): string {
               src="/images/Groepsfoto.jpg" 
               alt="Het Led's Run Team bij Signify"
               id="hero-image"
-              class="w-auto h-64 md:h-128 mx-auto rounded-xl md:rounded-2xl shadow-xl"
+              class="md:w-auto w-full h-64 md:h-128 mx-auto rounded-xl md:rounded-2xl shadow-xl"
             />
           </div>
           
           <!-- Hero Title -->
-          <h1 class="hidden text-4xl md:text-6xl font-bold text-ink mb-3 md:mb-4">LEDs Run</h1>
-          <p class="hidden text-xl md:text-2xl text-ink/70 max-w-2xl mx-auto leading-relaxed px-4">
+          <h1 class="block md:hidden text-4xl md:text-6xl font-bold text-ink mb-3 md:mb-4">LEDs Run</h1>
+          <p class="block md:hidden text-xl md:text-2xl text-ink/70 max-w-2xl mx-auto leading-relaxed px-4">
             Actienummer: 340183185
           </p>
          
