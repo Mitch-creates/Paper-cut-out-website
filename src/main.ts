@@ -14,12 +14,20 @@ function createMainHTML(): string {
       <div class="absolute inset-0"></div>
       <div class="relative z-10 flex items-center justify-center min-h-screen">
         <div class="text-center space-y-6 md:space-y-8 p-4 md:p-8">
-        <div class="hidden md:block mb-6 md:mb-8 absolute top-20 left-25 z-20">
-         ${DonateButton({
-           text: "DOE EEN GIFT <i id='donate-icon' class='fa-solid fa-heart ml-2 text-3xl md:text-4xl'></i>",
-           color: "normal_red",
-           href: "https://www.komoptegenkanker.be/actie/code/340183185",
-         })}
+        <div class="hidden md:block mb-6 md:mb-8 absolute top-20 text-left left-10 z-20">
+         
+
+         <h1 class="text-6xl font-bold text-ink mb-2">LEDs Run</h1>
+          <p class="text-2xl text-ink/70 mb-8 max-w-2xl mx-auto leading-relaxed">
+            Actienummer: 340183185
+          </p>
+          <div class="flex justify-center">
+          ${DonateButton({
+            text: "DOE EEN GIFT <i id='donate-icon' class='fa-solid fa-heart ml-2 text-3xl md:text-4xl'></i>",
+            color: "normal_red",
+            href: "https://www.komoptegenkanker.be/actie/code/340183185",
+          })}
+          </div>
          </div>
          <div class="md:hidden mb-6 md:mb-8">
          ${DonateButton({
@@ -34,13 +42,13 @@ function createMainHTML(): string {
               src="/images/Groepsfoto.jpg" 
               alt="Het Led's Run Team bij Signify"
               id="hero-image"
-              class="w-auto h-64 md:h-96 mx-auto rounded-xl md:rounded-2xl shadow-xl"
+              class="w-auto h-64 md:h-128 mx-auto rounded-xl md:rounded-2xl shadow-xl"
             />
           </div>
           
           <!-- Hero Title -->
-          <h1 class="text-4xl md:text-6xl font-bold text-ink mb-3 md:mb-4">LEDs Run</h1>
-          <p class="text-xl md:text-2xl text-ink/70 max-w-2xl mx-auto leading-relaxed px-4">
+          <h1 class="hidden text-4xl md:text-6xl font-bold text-ink mb-3 md:mb-4">LEDs Run</h1>
+          <p class="hidden text-xl md:text-2xl text-ink/70 max-w-2xl mx-auto leading-relaxed px-4">
             Actienummer: 340183185
           </p>
          
