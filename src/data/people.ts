@@ -82,6 +82,10 @@ export const people: Person[] = [
   },
 ];
 
+const peopleMap: Map<string, Person> = new Map(
+  people.map((person) => [person.id, person])
+);
+
 export const getPeopleById = (id: string): Person | null => {
-  return people.find((person) => person.id === id) || null;
+  return peopleMap.get(id) || null;
 };

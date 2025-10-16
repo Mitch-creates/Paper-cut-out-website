@@ -103,7 +103,7 @@ ${CheckPoint({ id: "m75", color: "var(--color-t-pink)", label: "30 KM" })}
     <i id="click-arrow-icon" class="animate-wiggle fa-solid fa-arrow-up text-3xl md:text-4xl"></i>
     <div class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
       <p class="text-white text-sm font-light">
-        Klik op de lopers!
+        Leer de lopers kennen!
       </p>
     </div>
   </div>
@@ -152,7 +152,7 @@ ${CheckPoint({ id: "m75", color: "var(--color-t-pink)", label: "30 KM" })}
     </div>
 
     <div class="mt-6 md:mt-8 text-center text-paper/70 pb-4 md:pb-0">
-      &copy; <span class="underline">MitchCreates</span> 2025
+      &copy; <span>MitchCreates</span> 2025
     </div>
   </div>
     </footer>
@@ -206,16 +206,18 @@ function setupModalCloseHandlers(modal: HTMLElement) {
   const backdrop = modal.querySelector("#backdrop");
   const closeButton = modal.querySelector("[data-close-modal]");
 
-  // Remove any existing listeners to prevent duplicates
-  const newCloseButton = closeButton?.cloneNode(true);
-  closeButton?.parentNode?.replaceChild(newCloseButton!, closeButton);
+  // Use AbortController to manage event listeners
+  const abortController = new AbortController();
 
-  const newBackdrop = backdrop?.cloneNode(true);
-  backdrop?.parentNode?.replaceChild(newBackdrop!, backdrop);
+  closeButton?.addEventListener("click", closeModal, {
+    signal: abortController.signal,
+  });
+  backdrop?.addEventListener("click", closeModal, {
+    signal: abortController.signal,
+  });
 
-  // Add fresh listeners
-  newCloseButton?.addEventListener("click", closeModal);
-  newBackdrop?.addEventListener("click", closeModal);
+  // Store controller on modal for cleanup
+  (modal as any)._abortController = abortController;
 }
 
 function showModal(runnerId: string | null) {
@@ -245,6 +247,11 @@ function showModal(runnerId: string | null) {
 }
 
 function closeModal() {
+  const modal = document.getElementById("dialog");
+  if (modal && (modal as any)._abortController) {
+    (modal as any)._abortController.abort();
+  }
+
   const modalContainer = document.getElementById("modal-container");
   if (modalContainer) {
     modalContainer.innerHTML = ""; // Clear the modal
