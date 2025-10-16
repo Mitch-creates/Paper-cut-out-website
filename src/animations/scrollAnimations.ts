@@ -442,10 +442,6 @@ function primeRunner(el: HTMLElement) {
 }
 
 function playClickArrow(el: HTMLElement) {
-  const id = el.id;
-  if (played.has(id)) return;
-  played.add(id);
-
   gsap
     .timeline({ repeat: -1 })
     .to(el, {
@@ -472,10 +468,6 @@ function playClickArrow(el: HTMLElement) {
 }
 
 function playRunner(el: HTMLElement) {
-  const id = el.id;
-  if (played.has(id)) return;
-  played.add(id);
-
   gsap
     .timeline()
     .to(el, {
