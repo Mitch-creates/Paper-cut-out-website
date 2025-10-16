@@ -101,11 +101,9 @@ export function setupScrollAnimations(): void {
     if (visible) swapScrollWord(idx);
   }
 
-  // delay matches your pattern
   setTimeout(() => {
     gsap.set(scrollMouse, { opacity: 1 });
 
-    // HERO trigger: mouse fade + word sequence (READY → SET → GO!)
     const heroST = ScrollTrigger.create({
       trigger: ".hero-section",
       start: "top top",
@@ -131,7 +129,6 @@ export function setupScrollAnimations(): void {
     // initialize immediately with the current progress
     updateWords(heroST.progress);
 
-    // mouse bounce
     bounceAnimation = gsap.to(scrollMouse, {
       y: "-=15",
       repeat: -1,
@@ -199,12 +196,10 @@ export function animateScrollLine(): void {
   };
   let L = init();
 
-  // Map: start just after hero -> end at footer top
   const heroBottom = hero.offsetTop + hero.offsetHeight;
   const startAt = heroBottom;
   const endAt = footer.offsetTop * 1.05; // Added a bit extra to ensure a full reveal
 
-  // Ensure enough scroll height for the fixed overlay
   if (layer && layer.parentElement) {
     const needed = Math.max(
       endAt - startAt + window.innerHeight,
@@ -216,7 +211,7 @@ export function animateScrollLine(): void {
   const clamp01 = (x: number) => Math.max(0, Math.min(1, x));
 
   function positionElements() {
-    if (!svgGuide || !layer) return; // Exit if svgGuide is null
+    if (!svgGuide || !layer) return;
 
     for (const m of checkpoints) {
       const el = document.getElementById(m.id)!;
@@ -271,8 +266,51 @@ export function animateScrollLine(): void {
           : pt.y
       }px`;
       el.style.transform = `translate(-50%, -50%)`;
+
+      primeRunner(el);
     }
+    positionClickArrow();
   }
+
+  function positionClickArrow() {
+    const arrow = document.getElementById("click-arrow");
+    const arrow_icon = document.getElementById("click-arrow-icon");
+    if (!arrow || !svgGuide || !layer || !arrow_icon) return;
+
+    const targetRunnerId = isMobile() ? "runner1" : "runner5";
+    const targetRunner = runners.find((r) => r.id === targetRunnerId);
+
+    if (!targetRunner) return;
+
+    const pt = calculatePositionOnScreenBasedOfPercentageOfPath(
+      targetRunner.pct,
+      svgGuide,
+      layer
+    );
+
+    let runnerX = pt.x;
+    let runnerY = pt.y;
+
+    if (targetRunnerId === "runner1") {
+      runnerX = isMobile() ? pt.x * 0.6 : pt.x * 1.28;
+
+      runnerY = isMobile() ? pt.y : pt.y;
+    } else if (targetRunnerId === "runner5") {
+      runnerX = isMobile() ? pt.x * 1.3 : pt.x * 1.35;
+
+      runnerY = isMobile() ? pt.y : pt.y;
+    }
+    // Adjust offsets based on screen size
+    const offsetX = isMobile() ? -80 : 30;
+    const offsetY = isMobile() ? 50 : 60;
+
+    arrow.style.left = `${runnerX + offsetX}px`;
+    arrow.style.top = `${runnerY + offsetY}px`;
+    arrow_icon.style.transform = isMobile()
+      ? "rotate(40deg)"
+      : "rotate(-30deg)";
+  }
+
   positionElements();
   setCheckpointLabel("m25", "10 KM");
   setCheckpointLabel("m50", "20 KM");
@@ -294,9 +332,26 @@ export function animateScrollLine(): void {
       for (const r of runners) {
         const el = document.getElementById(r.id)!;
         const shouldBeVisible = t >= r.pct;
+        const wasHidden = el.classList.contains("hidden");
 
         el.classList.toggle("hidden", !shouldBeVisible);
+        if (shouldBeVisible && wasHidden) playRunner(el);
       }
+
+      const arrow = document.getElementById("click-arrow");
+      if (arrow) {
+        const targetRunnerId = isMobile() ? "runner1" : "runner5";
+        const targetRunner = runners.find((r) => r.id === targetRunnerId);
+        if (targetRunner) {
+          const shouldBeVisible = t >= targetRunner.pct + 0.15;
+          const wasHidden = arrow.classList.contains("hidden");
+          arrow.classList.toggle("hidden", !shouldBeVisible);
+          const arrow_icon = document.getElementById("click-arrow-icon");
+          if (shouldBeVisible && wasHidden && arrow_icon)
+            playClickArrow(arrow_icon);
+        }
+      }
+      if (t >= 0.7) arrow?.classList.add("hidden");
     });
   };
 
@@ -334,7 +389,6 @@ function calculatePositionOnScreenBasedOfPercentageOfPath(
 
   const angleDeg = Math.atan2(sp2.y - sp1.y, sp2.x - sp1.x) * (180 / Math.PI);
 
-  // convert to coordinates relative to your overlay container
   const r = relativeTo.getBoundingClientRect();
   return { x: sp1.x - r.left, y: sp1.y - r.top, angleDeg };
 }
@@ -343,7 +397,7 @@ function primeCheckpoint(el: HTMLElement) {
   const sign = el.querySelector<SVGGElement>(".sign");
   if (!sign) return;
   gsap.set(sign, {
-    transformOrigin: "50% 100%", // hinge at bottom edge (the rope attachment point)
+    transformOrigin: "50% 100%",
     yPercent: 20,
     willChange: "transform, opacity",
   });
@@ -357,7 +411,6 @@ function playCheckpoint(el: HTMLElement) {
   const sign = el.querySelector<SVGGElement>(".sign");
   if (!sign) return;
 
-  // TODO
   gsap
     .timeline()
     .to(
@@ -375,6 +428,75 @@ function playCheckpoint(el: HTMLElement) {
       {
         rotateX: 0,
         duration: 0.3,
+        ease: "back.out(1.2)",
+      },
+      ">-0.1"
+    );
+}
+
+function primeRunner(el: HTMLElement) {
+  gsap.set(el, {
+    opacity: 0,
+    willChange: "transform, opacity",
+  });
+}
+
+function playClickArrow(el: HTMLElement) {
+  const id = el.id;
+  if (played.has(id)) return;
+  played.add(id);
+
+  gsap
+    .timeline({ repeat: -1 })
+    .to(el, {
+      opacity: 1,
+      duration: 0.3,
+      ease: "power1.out",
+    })
+    .to(
+      el,
+      {
+        x: isMobile() ? 15 : 5,
+        y: isMobile() ? -10 : 5,
+        duration: 0.8,
+        ease: "power2.inOut",
+      },
+      0
+    )
+    .to(el, {
+      x: 0,
+      y: 0,
+      duration: 0.8,
+      ease: "power2.inOut",
+    });
+}
+
+function playRunner(el: HTMLElement) {
+  const id = el.id;
+  if (played.has(id)) return;
+  played.add(id);
+
+  gsap
+    .timeline()
+    .to(el, {
+      opacity: 1,
+      duration: 0.5,
+      ease: "power2.out",
+    })
+    .to(
+      el,
+      {
+        x: 40,
+        duration: 0.3,
+        ease: "power2.out",
+      },
+      0
+    )
+    .to(
+      el,
+      {
+        x: 0,
+        duration: 1,
         ease: "back.out(1.2)",
       },
       ">-0.1"

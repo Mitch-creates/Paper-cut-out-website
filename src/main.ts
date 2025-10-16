@@ -6,6 +6,7 @@ import {
 import DonateButton from "./components/DonateButton";
 import CheckPoint from "./components/CheckPoint";
 import ModalScreen from "./components/ModalScreen";
+import { getPeopleById } from "./data/people";
 
 function createMainHTML(): string {
   return `
@@ -17,7 +18,7 @@ function createMainHTML(): string {
         <div class="hidden md:block mb-6 md:mb-8 absolute top-20 text-left left-10 z-20">
          
 
-         <h1 class="text-6xl font-bold text-ink mb-2">LEDs Run</h1>
+         <h1 class="md:text-6xl font-bold text-ink mb-2">LEDs Run</h1>
           <p class="text-2xl text-ink/70 mb-8 max-w-2xl mx-auto leading-relaxed">
             Actienummer: 340183185
           </p>
@@ -97,6 +98,17 @@ ${CheckPoint({ id: "m25", color: "var(--color-t-pink)", label: "10 KM" })}
 ${CheckPoint({ id: "m50", color: "var(--color-t-pink)", label: "20 KM" })}
 ${CheckPoint({ id: "m75", color: "var(--color-t-pink)", label: "30 KM" })}
 
+<div id="click-arrow" class="hidden fixed z-30 pointer-events-none">
+  <div class="relative text-white">
+    <i id="click-arrow-icon" class="animate-wiggle fa-solid fa-arrow-up text-3xl md:text-4xl"></i>
+    <div class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
+      <p class="text-white text-sm font-light">
+        Klik op de lopers!
+      </p>
+    </div>
+  </div>
+</div>
+
 
 <a class="cursor-pointer hidden" id="runner1" data-runner="1A"><i id="runner" class="fa-solid fa-person-running fa-3x text-t-pink"></i> </a>
 <a class="cursor-pointer hidden" id="runner2" data-runner="2A"><i id="runner" class="fa-solid fa-person-running fa-3x text-t-pink"></i> </a>
@@ -106,16 +118,7 @@ ${CheckPoint({ id: "m75", color: "var(--color-t-pink)", label: "30 KM" })}
 <a class="cursor-pointer hidden" id="runner6" data-runner="2B"><i id="runner" class="fa-solid fa-person-running fa-3x text-t-pink"></i> </a>
 <a class="cursor-pointer hidden" id="runner7" data-runner="3B"><i id="runner" class="fa-solid fa-person-running fa-3x text-t-pink"></i> </a>
 <a class="cursor-pointer hidden" id="runner8" data-runner="4B"><i id="runner" class="fa-solid fa-person-running fa-3x text-t-pink"></i> </a>
-${ModalScreen({
-  person: {
-    name: "Annelies",
-    distance: "20",
-    imageSrc: "images/granit.png",
-    motivation:
-      "Ik loop heel graag, ik heb speciaal voor deze loop nieuwe loopschoenen aangeschaft, let's get it on!",
-    backgroundColor: "t-pink",
-  },
-})}
+<div id="modal-container"></div>
 </section>
 </div>
 
@@ -149,7 +152,7 @@ ${ModalScreen({
     </div>
 
     <div class="mt-6 md:mt-8 text-center text-paper/70 pb-4 md:pb-0">
-      &copy; <a href="https://mitchcreates.info/"><span class="underline">MitchCreates</span> 2025</a>
+      &copy; <span class="underline">MitchCreates</span> 2025
     </div>
   </div>
     </footer>
@@ -186,24 +189,12 @@ function setupModalHandlers() {
 
     if (runnerLink) {
       e.preventDefault();
-      const runnerId = runnerLink.getAttribute("data-runner");
+      const runnerId = runnerLink.getAttribute("id");
       showModal(runnerId);
     }
   });
 
-  // Handle modal close
-  const modal = document.getElementById("dialog");
-  const backdrop = modal?.querySelector("#backdrop");
-  const closeButton = modal?.querySelector("[data-close-modal]");
-
-  if (closeButton) {
-    closeButton.addEventListener("click", closeModal);
-  }
-
-  // Close on overlay click
-  backdrop?.addEventListener("click", closeModal);
-
-  // Close on escape key
+  // Close on escape key (global listener)
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
       closeModal();
@@ -211,36 +202,56 @@ function setupModalHandlers() {
   });
 }
 
+function setupModalCloseHandlers(modal: HTMLElement) {
+  const backdrop = modal.querySelector("#backdrop");
+  const closeButton = modal.querySelector("[data-close-modal]");
+
+  // Remove any existing listeners to prevent duplicates
+  const newCloseButton = closeButton?.cloneNode(true);
+  closeButton?.parentNode?.replaceChild(newCloseButton!, closeButton);
+
+  const newBackdrop = backdrop?.cloneNode(true);
+  backdrop?.parentNode?.replaceChild(newBackdrop!, backdrop);
+
+  // Add fresh listeners
+  newCloseButton?.addEventListener("click", closeModal);
+  newBackdrop?.addEventListener("click", closeModal);
+}
+
 function showModal(runnerId: string | null) {
-  const modal = document.getElementById("dialog");
-  if (!modal || !runnerId) return;
-
-  // Update modal content based on runner
-  const modalTitle = modal.querySelector("h2");
-  const modalContent = modal.querySelector(".modal-content");
-
-  if (modalTitle) {
-    modalTitle.textContent = `Runner ${runnerId}`;
+  if (!runnerId) return;
+  const runner = getPeopleById(runnerId);
+  if (!runner) {
+    console.error("Runner not found for id:", runnerId);
+    return;
   }
+  const modalHTML = ModalScreen({ person: runner });
+
+  const modalContainer = document.getElementById("modal-container");
+  if (modalContainer) {
+    modalContainer.innerHTML = modalHTML;
+  }
+  const modal = document.getElementById("dialog");
+  if (!modal) return;
 
   // Show modal
   modal.classList.remove("invisible");
   modal.classList.add("flex");
+
+  setupModalCloseHandlers(modal);
 
   // Prevent body scroll
   document.body.style.overflow = "hidden";
 }
 
 function closeModal() {
-  const modal = document.getElementById("dialog");
-  if (!modal) return;
-
-  modal.classList.add("invisible");
-  modal.classList.remove("flex");
+  const modalContainer = document.getElementById("modal-container");
+  if (modalContainer) {
+    modalContainer.innerHTML = ""; // Clear the modal
+  }
 
   // Restore body scroll
   document.body.style.overflow = "";
 }
 
-// Setup everything
 setupModalHandlers();
