@@ -76,7 +76,7 @@ function createMainHTML(): string {
 </div>
     </section>
 
-
+<!-- Scroll Line Section with Runners/Checkpoint/Clickarrow -->
 <div class= "h-[500vh] w-full">
     <section class="scroll-line-section fixed top-0 left-0 w-full h-full text-center overflow-hidden">
 
@@ -103,7 +103,7 @@ ${CheckPoint({ id: "m75", color: "var(--color-t-pink)", label: "30 KM" })}
     <i id="click-arrow-icon" class="animate-wiggle fa-solid fa-arrow-up text-3xl md:text-4xl"></i>
     <div class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
       <p class="text-white text-sm font-light">
-        leer de lopers kennen!
+        ontdek de lopers!
       </p>
     </div>
   </div>
