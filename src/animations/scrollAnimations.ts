@@ -301,7 +301,7 @@ export function animateScrollLine(): void {
       runnerY = isMobile() ? pt.y : pt.y;
     }
     // Adjust offsets based on screen size
-    const offsetX = isMobile() ? -80 : 30;
+    const offsetX = isMobile() ? -70 : 30;
     const offsetY = isMobile() ? 50 : 60;
 
     arrow.style.left = `${runnerX + offsetX}px`;
