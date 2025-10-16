@@ -30,7 +30,7 @@ function createMainHTML(): string {
           })}
           </div>
          </div>
-         <div class="md:hidden mb-6">
+         <div class="md:hidden mb-8">
          ${DonateButton({
            text: "DOE EEN GIFT <i id='donate-icon' class='fa-solid fa-heart ml-2 text-3xl md:text-4xl'></i>",
            color: "normal_red",
