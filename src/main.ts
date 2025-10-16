@@ -103,7 +103,7 @@ ${CheckPoint({ id: "m75", color: "var(--color-t-pink)", label: "30 KM" })}
     <i id="click-arrow-icon" class="animate-wiggle fa-solid fa-arrow-up text-3xl md:text-4xl"></i>
     <div class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
       <p class="text-white text-sm font-light">
-        Leer de lopers kennen!
+        leer de lopers kennen!
       </p>
     </div>
   </div>
