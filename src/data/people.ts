@@ -9,36 +9,36 @@ export interface Person {
 export const people: Person[] = [
   {
     id: "runner1",
-    name: "Granit",
-    distance: "10 km",
-    imageSrc: "images/granit10.png",
+    name: "Gauthier",
+    distance: "40",
+    imageSrc: "images/Gauthier40.png",
     motivation:
       "Ik loop heel graag, ik heb speciaal voor deze loop nieuwe loopschoenen aangeschaft, let's get it on!",
     backgroundColor: "t-pink",
   },
   {
     id: "runner2",
-    name: "Sven",
-    distance: "20 km",
-    imageSrc: "images/Sven20.png",
+    name: "Caroline",
+    distance: "30",
+    imageSrc: "images/Caroline30.png",
     motivation:
       "Ik loop heel graag, ik heb speciaal voor deze loop nieuwe loopschoenen aangeschaft, let's get it on!",
     backgroundColor: "t-lightblue",
   },
   {
     id: "runner3",
-    name: "Caroline",
-    distance: "30 km",
-    imageSrc: "images/Caroline30.png",
+    name: "Sven",
+    distance: "20",
+    imageSrc: "images/Sven20.png",
     motivation:
       "Ik loop heel graag, ik heb speciaal voor deze loop nieuwe loopschoenen aangeschaft, let's get it on!",
     backgroundColor: "t-wine",
   },
   {
     id: "runner4",
-    name: "Gauthier",
-    distance: "40 km",
-    imageSrc: "images/Gauthier40.png",
+    name: "Granit",
+    distance: "10",
+    imageSrc: "images/Granit10.png",
     motivation:
       "Ik loop heel graag, ik heb speciaal voor deze loop nieuwe loopschoenen aangeschaft, let's get it on!",
     backgroundColor: "t-red",
@@ -46,36 +46,36 @@ export const people: Person[] = [
 
   {
     id: "runner5",
-    name: "Juan",
-    distance: "10 km",
-    imageSrc: "images/Juan10.png",
+    name: "Vincent",
+    distance: "40",
+    imageSrc: "images/Vincent40.png",
     motivation:
       "Ik loop heel graag, ik heb speciaal voor deze loop nieuwe loopschoenen aangeschaft, let's get it on!",
     backgroundColor: "t-pink",
   },
   {
     id: "runner6",
-    name: "Annelies",
-    distance: "20 km",
-    imageSrc: "images/Annelies20.png",
+    name: "Lara",
+    distance: "30",
+    imageSrc: "images/Lara30.png",
     motivation:
       "Ik loop heel graag, ik heb speciaal voor deze loop nieuwe loopschoenen aangeschaft, let's get it on!",
     backgroundColor: "t-lightblue",
   },
   {
     id: "runner7",
-    name: "Lara",
-    distance: "30 km",
-    imageSrc: "images/Lara30.png",
+    name: "Annelies",
+    distance: "20",
+    imageSrc: "images/Annelies20.png",
     motivation:
       "Ik loop heel graag, ik heb speciaal voor deze loop nieuwe loopschoenen aangeschaft, let's get it on!",
-    backgroundColor: "t-wine",
+    backgroundColor: "t-darkblue",
   },
   {
     id: "runner8",
-    name: "Vincent",
-    distance: "40 km",
-    imageSrc: "images/Vincent40.png",
+    name: "Juan",
+    distance: "10",
+    imageSrc: "images/Juan10.png",
     motivation:
       "Ik loop heel graag, ik heb speciaal voor deze loop nieuwe loopschoenen aangeschaft, let's get it on!",
     backgroundColor: "t-red",
