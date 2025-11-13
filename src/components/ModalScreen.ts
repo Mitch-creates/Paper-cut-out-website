@@ -16,7 +16,14 @@ export default function ModalScreen({ person }: ModalScreenProps): string {
     <div class="rounded-2xl shadow-lg p-6 max-w-lg md:max-w-2xl" style="background-color: var(--color-${backgroundColor})">
           <!-- Mobile Layout: Image top, text bottom -->
           <div class="flex flex-col items-center gap-4 md:hidden">
-            <img src="${imageSrc}" alt="${name}" class="w-50 h-50 rounded-full object-cover border-4 border-white/70">
+          <div class="relative w-50 h-50">
+          <!-- Loading spinner -->
+              <div id="image-loader-mobile" class="absolute inset-0 flex items-center justify-center">
+                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+              </div>
+            <img src="${imageSrc}" alt="${name}" class="w-50 h-50 rounded-full object-cover border-4 border-white/70 opacity-0 transition-opacity duration-300"
+                onload="this.style.opacity='1'; document.getElementById('image-loader-mobile').style.display='none';">
+            </div>
             <div class="text-center">
               <h2 class="text-2xl font-bold text-white">${name.toUpperCase()}</h2>
               <p class="text-white mb-4 text-lg italic">${distance} km</p>
@@ -31,8 +38,18 @@ export default function ModalScreen({ person }: ModalScreenProps): string {
               <p class="text-white mb-4 text-xl italic">${distance} km</p>
               <p class="text-white text-lg leading-relaxed max-w-md">${motivation}</p>
             </div>
-            <div class="flex-shrink-0">
-              <img src="${imageSrc}" alt="${name}" class="w-50 h-50 rounded-full object-cover border-4 border-white/70">
+            <div class="flex-shrink-0 relative">
+              <!-- Loading spinner -->
+              <div id="image-loader-desktop" class="absolute inset-0 flex items-center justify-center w-50 h-50">
+                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+              </div>
+              <!-- Actual image -->
+              <img 
+                src="${imageSrc}" 
+                alt="${name}" 
+                class="w-50 h-50 rounded-full object-cover border-4 border-white/70 opacity-0 transition-opacity duration-300"
+                onload="this.style.opacity='1'; document.getElementById('image-loader-desktop').style.display='none';"
+              >
             </div>
           </div>
         </div>

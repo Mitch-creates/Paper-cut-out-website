@@ -5,6 +5,7 @@ export interface Person {
   imageSrc: string;
   motivation: string;
   backgroundColor: string;
+  imageLoaded?: boolean;
 }
 export const people: Person[] = [
   {
@@ -15,6 +16,7 @@ export const people: Person[] = [
     motivation:
       "Ik loop heel graag, ik heb speciaal voor deze loop nieuwe loopschoenen aangeschaft, let's get it on!",
     backgroundColor: "t-pink",
+    imageLoaded: false,
   },
   {
     id: "runner2",
@@ -24,6 +26,7 @@ export const people: Person[] = [
     motivation:
       "Ik loop heel graag, ik heb speciaal voor deze loop nieuwe loopschoenen aangeschaft, let's get it on!",
     backgroundColor: "t-lightblue",
+    imageLoaded: false,
   },
   {
     id: "runner3",
@@ -33,6 +36,7 @@ export const people: Person[] = [
     motivation:
       "Ik loop heel graag, ik heb speciaal voor deze loop nieuwe loopschoenen aangeschaft, let's get it on!",
     backgroundColor: "t-wine",
+    imageLoaded: false,
   },
   {
     id: "runner4",
@@ -42,6 +46,7 @@ export const people: Person[] = [
     motivation:
       "Ik loop heel graag, ik heb speciaal voor deze loop nieuwe loopschoenen aangeschaft, let's get it on!",
     backgroundColor: "t-red",
+    imageLoaded: false,
   },
 
   {
@@ -52,6 +57,7 @@ export const people: Person[] = [
     motivation:
       "Ik loop heel graag, ik heb speciaal voor deze loop nieuwe loopschoenen aangeschaft, let's get it on!",
     backgroundColor: "t-pink",
+    imageLoaded: false,
   },
   {
     id: "runner6",
@@ -61,6 +67,7 @@ export const people: Person[] = [
     motivation:
       "Ik loop heel graag, ik heb speciaal voor deze loop nieuwe loopschoenen aangeschaft, let's get it on!",
     backgroundColor: "t-lightblue",
+    imageLoaded: false,
   },
   {
     id: "runner7",
@@ -70,6 +77,7 @@ export const people: Person[] = [
     motivation:
       "Ik loop heel graag, ik heb speciaal voor deze loop nieuwe loopschoenen aangeschaft, let's get it on!",
     backgroundColor: "t-wine",
+    imageLoaded: false,
   },
   {
     id: "runner8",
@@ -79,6 +87,7 @@ export const people: Person[] = [
     motivation:
       "Ik loop heel graag, ik heb speciaal voor deze loop nieuwe loopschoenen aangeschaft, let's get it on!",
     backgroundColor: "t-red",
+    imageLoaded: false,
   },
 ];
 
