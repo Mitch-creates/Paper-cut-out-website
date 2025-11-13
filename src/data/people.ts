@@ -23,7 +23,7 @@ export const people: Person[] = [
     imageSrc: "images/Sven20.png",
     motivation:
       "Ik loop heel graag, ik heb speciaal voor deze loop nieuwe loopschoenen aangeschaft, let's get it on!",
-    backgroundColor: "t-wine",
+    backgroundColor: "t-lightblue",
   },
   {
     id: "runner3",
@@ -60,7 +60,7 @@ export const people: Person[] = [
     imageSrc: "images/Annelies20.png",
     motivation:
       "Ik loop heel graag, ik heb speciaal voor deze loop nieuwe loopschoenen aangeschaft, let's get it on!",
-    backgroundColor: "t-wine",
+    backgroundColor: "t-lightblue",
   },
   {
     id: "runner7",
