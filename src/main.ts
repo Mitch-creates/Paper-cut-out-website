@@ -40,7 +40,7 @@ function createMainHTML(): string {
 
           <div id="group-photo-container" class="group-photo-container invisible mb-6 md:mb-8">
             <img 
-              src="/images/Groepsfoto.png" 
+              src="/images/groepsfoto.png" 
               alt="Het Led's Run Team bij Signify"
               id="hero-image"
               class="md:w-auto w-full h-64 md:h-128 mx-auto"
