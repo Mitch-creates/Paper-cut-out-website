@@ -33,16 +33,15 @@ export const people: Person[] = [
     name: "Sven",
     distance: "20",
     imageSrc: "images/Sven20.png",
-    motivation:
-      "Ik loop heel graag, ik heb speciaal voor deze loop nieuwe loopschoenen aangeschaft, let's get it on!",
+    motivation: "Annelies heeft mij gedwongen om mee te doen.",
     backgroundColor: "t-wine",
     imageLoaded: false,
   },
   {
     id: "runner4",
-    name: "Granit",
+    name: "Lara",
     distance: "10",
-    imageSrc: "images/Granit10.png",
+    imageSrc: "images/Lara10.png",
     motivation:
       "Ik loop heel graag, ik heb speciaal voor deze loop nieuwe loopschoenen aangeschaft, let's get it on!",
     backgroundColor: "t-red",
@@ -54,18 +53,17 @@ export const people: Person[] = [
     name: "Vincent",
     distance: "40",
     imageSrc: "images/Vincent40.png",
-    motivation:
-      "Ik loop heel graag, ik heb speciaal voor deze loop nieuwe loopschoenen aangeschaft, let's get it on!",
+    motivation: "Ik hou van lopen, het maakt mijn hoofd leeg",
     backgroundColor: "t-pink",
     imageLoaded: false,
   },
   {
     id: "runner6",
-    name: "Lara",
+    name: "Granit",
     distance: "30",
-    imageSrc: "images/Lara30.png",
+    imageSrc: "images/Granit30.png",
     motivation:
-      "Ik loop heel graag, ik heb speciaal voor deze loop nieuwe loopschoenen aangeschaft, let's get it on!",
+      "elke donatie, hoe klein ook, is een enorme motivatie voor mij tijdens de tocht en een directe bijdrage aan een kankervrije(re) toekomst voor iedereen. « samen trappen we kanker de wereld uit, stap voor stap »",
     backgroundColor: "t-lightblue",
     imageLoaded: false,
   },
@@ -75,7 +73,7 @@ export const people: Person[] = [
     distance: "20",
     imageSrc: "images/Annelies20.png",
     motivation:
-      "Ik loop heel graag, ik heb speciaal voor deze loop nieuwe loopschoenen aangeschaft, let's get it on!",
+      "Lopen voor een goed doel zoals KOTK maakt van deze run een heel andere beleving dan zomaar een halve marathon!",
     backgroundColor: "t-wine",
     imageLoaded: false,
   },
