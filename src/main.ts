@@ -43,7 +43,7 @@ function createMainHTML(): string {
               src="/images/groepsfoto.png" 
               alt="Het Led's Run Team bij Signify"
               id="hero-image"
-              class="md:w-auto w-full h-64 md:h-128 mx-auto"
+              class="md:w-auto w-full h-auto md:h-128 mx-auto"
             />
           </div>
           
