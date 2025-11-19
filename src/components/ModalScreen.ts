@@ -21,7 +21,7 @@ export default function ModalScreen({ person }: ModalScreenProps): string {
               <div id="image-loader-mobile" class="absolute inset-0 flex items-center justify-center">
                 <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
               </div>
-            <img src="${imageSrc}" alt="${name}" class="w-50 h-50 rounded-full object-cover opacity-0 transition-opacity duration-300"
+            <img src="${imageSrc}" alt="${name}" class="w-50 h-50 object-contain opacity-0 transition-opacity duration-300"
                 onload="this.style.opacity='1'; document.getElementById('image-loader-mobile').style.display='none';">
             </div>
             <div class="text-center">
@@ -47,7 +47,7 @@ export default function ModalScreen({ person }: ModalScreenProps): string {
               <img 
                 src="${imageSrc}" 
                 alt="${name}" 
-                class="w-50 h-50 rounded-full object-coveropacity-0 transition-opacity duration-300"
+                class="w-50 h-50 object-contain opacity-0 transition-opacity duration-300"
                 onload="this.style.opacity='1'; document.getElementById('image-loader-desktop').style.display='none';"
               >
             </div>

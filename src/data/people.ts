@@ -24,7 +24,7 @@ export const people: Person[] = [
     distance: "30",
     imageSrc: "images/Caroline30.png",
     motivation:
-      "Ik loop heel graag, ik heb speciaal voor deze loop nieuwe loopschoenen aangeschaft, let's get it on!",
+      "Ik loop niet alleen voor de sport maar voor iedereen die vecht of gemist wordt. Dit goede doel ligt me nauw aan het hart.",
     backgroundColor: "t-lightblue",
     imageLoaded: false,
   },
